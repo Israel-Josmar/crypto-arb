@@ -2,6 +2,7 @@ import {
   getPrice,
   getAskPrice,
   getBidPrice,
+  usd_brl,
 } from './model'
 
 test('shows get latest traded price', () => {
@@ -20,7 +21,7 @@ test('get best ask price', () => {
 
 test('get best bid price', () => {
   getBidPrice('ltc_brl','braziliex', (askPrice) => {
-    expect(askPrice).toEqual(184)
+    expect(askPrice).toEqual(184.9)
   })
 
 })
@@ -44,4 +45,10 @@ test('get best bid price at Wex', () => {
     expect(askPrice).toEqual(56.7)
   })
 
+})
+
+test('get usd x brl', () => {
+  usd_brl((value) => {
+    expect(value).toEqual(3.282902)
+  })
 })
