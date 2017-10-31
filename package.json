@@ -8,7 +8,7 @@
     "request": "^2.83.0"
   },
   "devDependencies": {
-    "react-scripts": "1.0.14"
+    "react-scripts": "1.0.16"
   },
   "scripts": {
     "start": "react-scripts start",
