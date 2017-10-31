@@ -25,6 +25,24 @@ export const getPrice = (currency_pair, exchange, callback) => {
   }
 }
 
+export const getBRLPrice = (currency_pair, exchange, callback) => {
+  switch (exchange) {
+    case 'wex':
+        return convertBRLPriceWex(currency_pair, callback)
+      break;
+    default:
+
+  }
+}
+
+const convertBRLPriceWex = (currency_pair,callback) => {
+  getPriceWex(currency_pair,  (value) => {
+    usd_brl( (BRL_USD) =>{
+      callback(BRL_USD*value)
+    })
+  })
+}
+
 export const getAskPrice = (currency_pair, exchange, callback) => {
   switch (exchange) {
     case 'braziliex':

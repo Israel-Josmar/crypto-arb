@@ -3,7 +3,15 @@ import {
   getAskPrice,
   getBidPrice,
   usd_brl,
+  getBRLPrice,
 } from './model'
+
+test('convert last traded price to brl', (done) => {
+  getBRLPrice('ltc_usd','wex', (lastPrice) => {
+    expect(lastPrice).toEqual(184.7678664)
+    done()
+  })
+})
 
 test('shows get latest traded price', (done) => {
   getPrice('ltc_brl','braziliex', (lastPrice) => {
