@@ -28,7 +28,7 @@ export const getPrice = (currency_pair, exchange, callback) => {
 export const getBRLPrice = (currency_pair, exchange, callback) => {
   switch (exchange) {
     case 'wex':
-        return convertBRLPriceWex(currency_pair, callback)
+        convertBRLPriceWex(currency_pair, callback)
       break;
     default:
 
