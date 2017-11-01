@@ -11,6 +11,7 @@ import {
 } from './wex'
 
 const request = require('request')
+const Promise = require('promise')
 
 export const getPrice = (currency_pair, exchange, callback) => {
   switch (exchange) {
@@ -18,28 +19,27 @@ export const getPrice = (currency_pair, exchange, callback) => {
     getPriceBrex(currency_pair, callback)
     break
   case 'wex':
-    getPriceWex(currency_pair, callback)
-    break
+    return getPriceWex(currency_pair)
   default:
 
   }
 }
 
-export const getBRLPrice = (currency_pair, exchange, callback) => {
+export const getBRLPrice = (currency_pair, exchange) => {
   switch (exchange) {
   case 'wex':
-    convertBRLPriceWex(currency_pair, callback)
-    break
+    return convertBRLPriceWex(currency_pair)
   default:
 
   }
 }
 
 const convertBRLPriceWex = (currency_pair,callback) => {
-  getPriceWex(currency_pair,  (value) => {
-    usd_brl( (BRL_USD) =>{
-      callback(BRL_USD*value)
-    })
+  const p1 = getPriceWex(currency_pair)
+  const p2 = usd_brl()
+  Promise.all([p1,p2]).then((results) => {
+    console.log(results[0]*results[1])
+    return results[0]*results[1]
   })
 }
 
@@ -69,12 +69,14 @@ export const getBidPrice = (currency_pair, exchange, callback) => {
   }
 }
 
-export const usd_brl = (callback) => {
+export const usd_brl = () => {
   const uri = 'http://free.currencyconverterapi.com/api/v3/convert?q=USD_BRL&compact=y'
   const options = { url: uri, json: true }
-  request(options, (error, response, json) => {
-    if (!error && response.statusCode === 200) {
-      callback(json.USD_BRL.val)
-    }
+  return new Promise(function(resolve, reject) {
+    request(options, (error, response, json) => {
+      if (!error && response.statusCode === 200) {
+        resolve(json.USD_BRL.val)
+      }
+    })
   })
 }

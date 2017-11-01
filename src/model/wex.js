@@ -21,12 +21,14 @@ export const getBidPriceWex = (currency_pair ,callback) => {
   })
 }
 
-export const getPriceWex = (currency_pair ,callback) => {
+export const getPriceWex = (currency_pair) => {
   const uri = 'https://wex.nz/api/3/ticker/'+currency_pair
   const options = { url: uri, json: true }
-  request(options, (error, response, json) => {
-    if (!error && response.statusCode === 200) {
-      callback(json[currency_pair].last)
-    }
+  return new Promise(function(resolve, reject) {
+    request(options, (error, response, json) => {
+      if (!error && response.statusCode === 200) {
+        resolve(json[currency_pair].last)
+      }
+    })
   })
 }

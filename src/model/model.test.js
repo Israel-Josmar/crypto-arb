@@ -8,7 +8,7 @@ import {
 
 var nock = require('nock')
 
-test('convert last traded price to brl', (done) => {
+test('convert last traded price to brl', () => {
   nock('https://wex.nz')
     .get('/api/3/ticker/ltc_usd')
     .reply(200, {
@@ -28,10 +28,7 @@ test('convert last traded price to brl', (done) => {
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })
-  getBRLPrice('ltc_usd','wex', (lastPrice) => {
-    expect(lastPrice).toEqual(183.67274813485)
-    done()
-  })
+  expect(getBRLPrice('ltc_usd','wex')).toEqual(183.67274813485)
 })
 
 test('shows get latest traded price', (done) => {
@@ -81,7 +78,7 @@ test('get best bid price', (done) => {
   })
 })
 
-test('shows get latest traded price at Wex', (done) => {
+test('shows get latest traded price at Wex', () => {
   nock('https://wex.nz')
     .get('/api/3/ticker/ltc_usd')
     .reply(200, {
@@ -96,10 +93,7 @@ test('shows get latest traded price at Wex', (done) => {
         'sell':56.1001,
         'updated':1509476866},
     })
-  getPrice('ltc_usd','wex', (lastPrice) => {
-    expect(lastPrice).toEqual(56.14505)
-    done()
-  })
+  return expect(getPrice('ltc_usd','wex')).resolves.toEqual(56.14505)
 })
 
 test('get best ask price at Wex', (done) => {
@@ -130,14 +124,11 @@ test('get best bid price at Wex', (done) => {
   })
 })
 
-test('get usd x brl', (done) => {
+test('get usd x brl', () => {
   nock('http://free.currencyconverterapi.com')
     .get('/api/v3/convert?q=USD_BRL&compact=y')
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })
-  usd_brl((value) => {
-    expect(value).toEqual(3.271397)
-    done()
-  })
+  return expect(usd_brl()).resolves.toEqual(3.271397)
 })
