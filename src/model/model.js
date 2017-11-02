@@ -34,11 +34,12 @@ export const getBRLPrice = (currency_pair, exchange) => {
 }
 
 const convertBRLPriceWex = (currency_pair) => {
-  return getPriceWex(currency_pair).then((price) => {
-    return usd_brl().then((value) => {
-      return(value*price)
-    })
-  })
+  const pricePromisse =  getPriceWex(currency_pair)
+  const valuePromisse = usd_brl()
+  return (
+    Promise.all([pricePromisse,valuePromisse])
+      .then((results) => results[0]*results[1])
+  )
 }
 
 export const getAskPrice = (currency_pair, exchange) => {
@@ -59,7 +60,6 @@ export const getBidPrice = (currency_pair, exchange) => {
   case 'wex':
     return getBidPriceWex(currency_pair)
   default:
-
   }
 }
 
