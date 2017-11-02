@@ -28,10 +28,10 @@ test('convert last traded price to brl', () => {
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })
-  expect(getBRLPrice('ltc_usd','wex')).toEqual(183.67274813485)
+  return expect(getBRLPrice('ltc_usd','wex')).resolves.toEqual(183.67274813485)
 })
 
-test('shows get latest traded price', (done) => {
+test('shows get latest traded price', () => {
   nock('https://braziliex.com')
     .get('/api/v1/public/ticker/ltc_brl')
     .reply(200, {
@@ -48,34 +48,25 @@ test('shows get latest traded price', (done) => {
       'highestBid':'182.05000000',
       'lowestAsk':'189.00000000',
     })
-  getPrice('ltc_brl','braziliex', (lastPrice) => {
-    expect(lastPrice).toEqual('185.00000000')
-    done()
-  })
+  return expect(getPrice('ltc_brl','braziliex')).resolves.toEqual('185.00000000')
 })
 
-test('get best ask price', (done) => {
+test('get best ask price', () => {
   nock('https://braziliex.com')
     .get('/api/v1/public/orderbook/ltc_brl')
     .reply(200, {
       'asks': [{'price':189,'amount':0.97583199},{'price':189.01,'amount':1.7616879}],
     })
-  getAskPrice('ltc_brl','braziliex', (askPrice) => {
-    expect(askPrice).toEqual(189)
-    done()
-  })
+  return expect(getAskPrice('ltc_brl','braziliex')).resolves.toEqual(189)
 })
 
-test('get best bid price', (done) => {
+test('get best bid price', () => {
   nock('https://braziliex.com')
     .get('/api/v1/public/orderbook/ltc_brl')
     .reply(200, {
       'bids': [{'price':183,'amount':9.86295081},{'price':182.01,'amount':5}],
     })
-  getBidPrice('ltc_brl','braziliex', (askPrice) => {
-    expect(askPrice).toEqual(183)
-    done()
-  })
+  expect(getBidPrice('ltc_brl','braziliex')).resolves.toEqual(183)
 })
 
 test('shows get latest traded price at Wex', () => {
@@ -96,7 +87,7 @@ test('shows get latest traded price at Wex', () => {
   return expect(getPrice('ltc_usd','wex')).resolves.toEqual(56.14505)
 })
 
-test('get best ask price at Wex', (done) => {
+test('get best ask price at Wex', () => {
   nock('https://wex.nz')
     .get('/api/3/depth/ltc_usd')
     .reply(200, {
@@ -104,13 +95,10 @@ test('get best ask price at Wex', (done) => {
         'asks': [[56.4,0.1536],[56.478965,7.44058789]],
       },
     })
-  getAskPrice('ltc_usd','wex', (askPrice) => {
-    expect(askPrice).toEqual(56.4)
-    done()
-  })
+  return expect(getAskPrice('ltc_usd','wex')).resolves.toEqual(56.4)
 })
 
-test('get best bid price at Wex', (done) => {
+test('get best bid price at Wex', () => {
   nock('https://wex.nz')
     .get('/api/3/depth/ltc_usd')
     .reply(200, {
@@ -118,10 +106,7 @@ test('get best bid price at Wex', (done) => {
         'bids': [[56.140001,0.533677],[56.14,0.36877119]],
       },
     })
-  getBidPrice('ltc_usd','wex', (askPrice) => {
-    expect(askPrice).toEqual(56.140001)
-    done()
-  })
+  return expect(getBidPrice('ltc_usd','wex')).resolves.toEqual(56.140001)
 })
 
 test('get usd x brl', () => {

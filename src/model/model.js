@@ -13,11 +13,10 @@ import {
 const request = require('request')
 const Promise = require('promise')
 
-export const getPrice = (currency_pair, exchange, callback) => {
+export const getPrice = (currency_pair, exchange) => {
   switch (exchange) {
   case 'braziliex':
-    getPriceBrex(currency_pair, callback)
-    break
+    return getPriceBrex(currency_pair)
   case 'wex':
     return getPriceWex(currency_pair)
   default:
@@ -34,36 +33,31 @@ export const getBRLPrice = (currency_pair, exchange) => {
   }
 }
 
-const convertBRLPriceWex = (currency_pair,callback) => {
-  const p1 = getPriceWex(currency_pair)
-  const p2 = usd_brl()
-  Promise.all([p1,p2]).then((results) => {
-    console.log(results[0]*results[1])
-    return results[0]*results[1]
+const convertBRLPriceWex = (currency_pair) => {
+  return getPriceWex(currency_pair).then((price) => {
+    return usd_brl().then((value) => {
+      return(value*price)
+    })
   })
 }
 
-export const getAskPrice = (currency_pair, exchange, callback) => {
+export const getAskPrice = (currency_pair, exchange) => {
   switch (exchange) {
   case 'braziliex':
-    getAskPriceBrex(currency_pair, callback)
-    break
+    return getAskPriceBrex(currency_pair)
   case 'wex':
-    getAskPriceWex(currency_pair, callback)
-    break
+    return getAskPriceWex(currency_pair)
   default:
 
   }
 }
 
-export const getBidPrice = (currency_pair, exchange, callback) => {
+export const getBidPrice = (currency_pair, exchange) => {
   switch (exchange) {
   case 'braziliex':
-    getBidPriceBrex(currency_pair, callback)
-    break
+    return getBidPriceBrex(currency_pair)
   case 'wex':
-    getBidPriceWex(currency_pair, callback)
-    break
+    return getBidPriceWex(currency_pair)
   default:
 
   }
