@@ -9,7 +9,7 @@ import {
 
 var nock = require('nock')
 
-test('convert last traded price to brl', () => {
+test('convert last traded price at wex to brl', () => {
   nock('https://wex.nz')
     .get('/api/3/ticker/ltc_usd')
     .reply(200, {
@@ -23,42 +23,42 @@ test('convert last traded price to brl', () => {
   return expect(getBRLPrice('ltc_usd','wex')).resolves.toEqual(183.67274813485)
 })
 
-test('shows get latest traded price', () => {
+test('get latest traded price from braziliex', () => {
   nock('https://braziliex.com')
     .get('/api/v1/public/ticker/ltc_brl')
     .reply(200, {'last':'185.00000000'})
   return expect(getPrice('ltc_brl','braziliex')).resolves.toEqual('185.00000000')
 })
 
-test('get best ask price', () => {
+test('get best ask price from braziliex', () => {
   nock('https://braziliex.com')
     .get('/api/v1/public/orderbook/ltc_brl')
     .reply(200, {'asks': [{'price':189}]})
   return expect(getAskPrice('ltc_brl','braziliex')).resolves.toEqual(189)
 })
 
-test('get best bid price', () => {
+test('get best bid price from braziliex', () => {
   nock('https://braziliex.com')
     .get('/api/v1/public/orderbook/ltc_brl')
     .reply(200, {'bids': [{'price':183}]})
   expect(getBidPrice('ltc_brl','braziliex')).resolves.toEqual(183)
 })
 
-test('shows get latest traded price at Wex', () => {
+test('shows get latest traded price from Wex', () => {
   nock('https://wex.nz')
     .get('/api/3/ticker/ltc_usd')
     .reply(200, {'ltc_usd':{'last':56.14505}})
   return expect(getPrice('ltc_usd','wex')).resolves.toEqual(56.14505)
 })
 
-test('get best ask price at Wex', () => {
+test('get best ask price from Wex', () => {
   nock('https://wex.nz')
     .get('/api/3/depth/ltc_usd')
     .reply(200, {'ltc_usd':{'asks': [[56.4]]}})
   return expect(getAskPrice('ltc_usd','wex')).resolves.toEqual(56.4)
 })
 
-test('get best bid price at Wex', () => {
+test('get best bid price from Wex', () => {
   nock('https://wex.nz')
     .get('/api/3/depth/ltc_usd')
     .reply(200, {'ltc_usd':{'bids': [[56.140001]]}})
