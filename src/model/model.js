@@ -79,6 +79,6 @@ export const getSpreadBrFr = (criptocurrency, exchangeBR, fiatcurrency, exchange
   const pricePromisse = getPrice(criptocurrency+'_brl', exchangeBR)
   return (
     Promise.all([brlPricePromisse,pricePromisse])
-      .then((results) => 100*(results[0]/results[1]-1) )
+      .then((results) => 100*(results[1]/results[0]-1) )
   )
 }

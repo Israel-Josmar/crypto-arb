@@ -88,5 +88,5 @@ test('get spread between br exchange and international exchange', () => {
   nock('https://braziliex.com')
     .get('/api/v1/public/ticker/ltc_brl')
     .reply(200, {'last':'185.00000000'})
-  return expect(getSpreadBrFr('ltc', 'braziliex', 'usd', 'wex')).resolves.toEqual(-0.7174334406216287)
+  return expect(getSpreadBrFr('ltc', 'braziliex', 'usd', 'wex')).resolves.toEqual(0.7226177419502378)
 })
