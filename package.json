@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "nock": "^9.0.27",
-    "promise": "^8.0.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "request": "^2.83.0"

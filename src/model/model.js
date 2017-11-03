@@ -11,7 +11,6 @@ import {
 } from './wex'
 
 const request = require('request')
-const Promise = require('promise')
 
 export const getPrice = (currency_pair, exchange) => {
   switch (exchange) {
