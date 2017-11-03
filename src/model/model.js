@@ -105,3 +105,17 @@ export const getFinalPrice = (criptocurrency, fiatcurrency, exchange, commission
     })
   )
 }
+
+export const getArbProfit = (criptocurrency, fiatcurrency1, fiatcurrency2, exchange1, exchange2, commission1, commission2, transfer_fee, value) => {
+  const pricePromisse1 = getFinalPrice(criptocurrency, fiatcurrency1, exchange1, commission1, 'buy')
+  const pricePromisse2 = getFinalPrice(criptocurrency, fiatcurrency2, exchange2, commission2, 'sell')
+  return (
+    Promise.all([pricePromisse1, pricePromisse2]).then((results) => {
+      const criptoAmount = value/results[0]
+      const criptoTransferred = criptoAmount - transfer_fee
+      const newBalance = criptoTransferred*results[1]
+      const profit = newBalance/value - 1
+      return profit*100
+    })
+  )
+}
