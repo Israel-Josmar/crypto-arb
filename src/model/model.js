@@ -82,3 +82,26 @@ export const getSpreadBrFr = (criptocurrency, exchangeBR, fiatcurrency, exchange
       .then((results) => 100*(results[1]/results[0]-1) )
   )
 }
+
+export const getFinalPrice = (criptocurrency, fiatcurrency, exchange, commission, operation) => {
+  const currency_pair = criptocurrency+'_'+fiatcurrency
+  let pricePromisse = {}
+  switch (exchange) {
+  case 'wex':
+    pricePromisse = getBRLPrice(currency_pair, exchange)
+    break
+  case 'braziliex':
+    pricePromisse = getPrice(currency_pair, exchange)
+    break
+  default:
+
+  }
+  return (
+    pricePromisse.then((price) => {
+      if (operation === 'buy')
+        return price*(1+(commission/100))
+      else
+        return price*(1-(commission/100))
+    })
+  )
+}

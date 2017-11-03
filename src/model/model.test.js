@@ -5,6 +5,7 @@ import {
   usd_brl,
   getBRLPrice,
   getSpreadBrFr,
+  getFinalPrice,
 } from './model'
 
 var nock = require('nock')
@@ -89,4 +90,18 @@ test('get spread between br exchange and international exchange', () => {
     .get('/api/v1/public/ticker/ltc_brl')
     .reply(200, {'last':'185.00000000'})
   return expect(getSpreadBrFr('ltc', 'braziliex', 'usd', 'wex')).resolves.toEqual(0.7226177419502378)
+})
+
+test('get price with trade commission', () => {
+  nock('https://wex.nz')
+    .get('/api/3/ticker/ltc_usd')
+    .reply(200, {
+      'ltc_usd':{'last':56.14505},
+    })
+  nock('http://free.currencyconverterapi.com')
+    .get('/api/v3/convert?q=USD_BRL&compact=y')
+    .reply(200, {
+      'USD_BRL':{'val':3.271397},
+    })
+  return expect(getFinalPrice('ltc', 'usd', 'wex', 0.2)).resolves.toEqual(183.3054026385803)
 })
