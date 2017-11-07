@@ -10,6 +10,12 @@ import {
   getBidPriceWex,
 } from './wex'
 
+import {
+  getPriceExmo,
+  getAskPriceExmo,
+  getBidPriceExmo,
+} from './exmo'
+
 const request = require('request')
 
 export const getPrice = (currency_pair, exchange) => {
@@ -18,6 +24,8 @@ export const getPrice = (currency_pair, exchange) => {
     return getPriceBrex(currency_pair)
   case 'wex':
     return getPriceWex(currency_pair)
+  case 'exmo':
+    return getPriceExmo(currency_pair)
   default:
 
   }
@@ -47,6 +55,8 @@ export const getAskPrice = (currency_pair, exchange) => {
     return getAskPriceBrex(currency_pair)
   case 'wex':
     return getAskPriceWex(currency_pair)
+  case 'exmo':
+    return getAskPriceExmo(currency_pair)
   default:
 
   }
@@ -58,6 +68,8 @@ export const getBidPrice = (currency_pair, exchange) => {
     return getBidPriceBrex(currency_pair)
   case 'wex':
     return getBidPriceWex(currency_pair)
+  case 'exmo':
+    return getBidPriceExmo(currency_pair)
   default:
   }
 }

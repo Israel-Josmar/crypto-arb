@@ -123,3 +123,24 @@ test('get trade profit', () => {
     })
   return expect(getArbProfit('ltc', 'brl', 'usd', 'braziliex', 'wex', 0.01, 0.2, 0.001, 1000)).resolves.toEqual(-0.9442365234059391)
 })
+
+test('get latest traded price from Exmo', () => {
+  nock('https://api.exmo.com')
+    .get('/v1/ticker/')
+    .reply(200, {'LTC_USD':{'last_trade':56.14505}})
+  return expect(getPrice('ltc_usd','exmo')).resolves.toEqual(56.14505)
+})
+
+test('get best ask price from Exmo', () => {
+  nock('https://api.exmo.com')
+    .get('/v1/order_book/?pair=LTC_USD')
+    .reply(200, {'LTC_USD':{'ask_top':56.4}})
+  return expect(getAskPrice('ltc_usd','exmo')).resolves.toEqual(56.4)
+})
+
+test('get best bid price from Exmo', () => {
+  nock('https://api.exmo.com')
+    .get('/v1/order_book/?pair=LTC_USD')
+    .reply(200, {'LTC_USD':{'bid_top':56.140001}})
+  return expect(getBidPrice('ltc_usd','exmo')).resolves.toEqual(56.140001)
+})
