@@ -4,7 +4,7 @@ import {
   getBidPrice,
   usd_brl,
   getBRLPrice,
-  getSpreadBrFr,
+  getSpread,
   getFinalPrice,
   getArbProfit,
 } from './model'
@@ -76,7 +76,7 @@ test('convert last traded price at wex to brl', () => {
   return expect(getBRLPrice('ltc_usd','wex')).resolves.toEqual(183.67274813485)
 })
 
-test('get spread between br exchange and international exchange', () => {
+test('get spread between two exchanges', () => {
   nock('https://wex.nz')
     .get('/api/3/ticker/ltc_usd')
     .reply(200, {
@@ -90,7 +90,7 @@ test('get spread between br exchange and international exchange', () => {
   nock('https://braziliex.com')
     .get('/api/v1/public/ticker/ltc_brl')
     .reply(200, {'last':'185.00000000'})
-  return expect(getSpreadBrFr('ltc', 'braziliex', 'usd', 'wex')).resolves.toEqual(0.7226177419502378)
+  return expect(getSpread('ltc', 'braziliex', 'brl', 'wex', 'usd')).resolves.toEqual(0.7226177419502378)
 })
 
 test('get price with trade commission', () => {

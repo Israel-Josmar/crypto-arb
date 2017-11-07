@@ -97,12 +97,38 @@ export const usd_brl = () => {
   })
 }
 
-export const getSpreadBrFr = (criptocurrency, exchangeBR, fiatcurrency, exchangeFR) => {
-  const brlPricePromisse = getBRLPrice(criptocurrency+'_'+fiatcurrency, exchangeFR)
-  const pricePromisse = getPrice(criptocurrency+'_brl', exchangeBR)
+export const getSpread = (criptocurrency, exchange1, fiatcurrency1, exchange2, fiatcurrency2) => {
+  let pricePromisse1 = {}
+  let pricePromisse2 = {}
+  const currency_pair1 = criptocurrency+'_'+fiatcurrency1
+  const currency_pair2 = criptocurrency+'_'+fiatcurrency2
+  switch (exchange1) {
+  case 'wex':
+    pricePromisse1 = getBRLPrice(currency_pair1, exchange1)
+    break
+  case 'braziliex':
+    pricePromisse1 = getPrice(currency_pair1, exchange1)
+    break
+  case 'exmo':
+    pricePromisse1 = getBRLPrice(currency_pair2, exchange1)
+    break
+  default:
+  }
+  switch (exchange2) {
+  case 'wex':
+    pricePromisse2 = getBRLPrice(currency_pair2, exchange2)
+    break
+  case 'braziliex':
+    pricePromisse2 = getPrice(currency_pair2, exchange2)
+    break
+  case 'exmo':
+    pricePromisse2 = getBRLPrice(currency_pair2, exchange2)
+    break
+  default:
+  }
   return (
-    Promise.all([brlPricePromisse,pricePromisse])
-      .then((results) => 100*(results[1]/results[0]-1) )
+    Promise.all([pricePromisse1,pricePromisse2])
+      .then((results) => 100*(results[0]/results[1]-1) )
   )
 }
 
