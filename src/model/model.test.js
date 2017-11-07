@@ -156,3 +156,15 @@ test('convert last traded price at Exmo to brl', () => {
     })
   return expect(getBRLPrice('ltc_usd','exmo')).resolves.toEqual(183.67274813485)
 })
+
+test('get price with trade commission', () => {
+  nock('https://api.exmo.com')
+    .get('/v1/ticker/')
+    .reply(200, {'LTC_USD':{'last_trade':56.14505}})
+  nock('http://free.currencyconverterapi.com')
+    .get('/api/v3/convert?q=USD_BRL&compact=y')
+    .reply(200, {
+      'USD_BRL':{'val':3.271397},
+    })
+  return expect(getFinalPrice('ltc', 'usd', 'exmo', 0.2)).resolves.toEqual(183.3054026385803)
+})
