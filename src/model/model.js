@@ -35,6 +35,8 @@ export const getBRLPrice = (currency_pair, exchange) => {
   switch (exchange) {
   case 'wex':
     return convertBRLPriceWex(currency_pair)
+  case 'exmo':
+    return convertBRLPriceExmo(currency_pair)
   default:
 
   }
@@ -42,6 +44,15 @@ export const getBRLPrice = (currency_pair, exchange) => {
 
 const convertBRLPriceWex = (currency_pair) => {
   const pricePromisse =  getPriceWex(currency_pair)
+  const valuePromisse = usd_brl()
+  return (
+    Promise.all([pricePromisse,valuePromisse])
+      .then((results) => results[0]*results[1])
+  )
+}
+
+const convertBRLPriceExmo = (currency_pair) => {
+  const pricePromisse =  getPriceExmo(currency_pair)
   const valuePromisse = usd_brl()
   return (
     Promise.all([pricePromisse,valuePromisse])
