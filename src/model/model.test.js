@@ -157,7 +157,7 @@ test('convert last traded price at Exmo to brl', () => {
   return expect(getBRLPrice('ltc_usd','exmo')).resolves.toEqual(183.67274813485)
 })
 
-test('get price with trade commission', () => {
+test('get exmo price with trade commission', () => {
   nock('https://api.exmo.com')
     .get('/v1/ticker/')
     .reply(200, {'LTC_USD':{'last_trade':56.14505}})
