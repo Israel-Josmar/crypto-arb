@@ -121,7 +121,7 @@ test('get trade profit', () => {
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })
-  return expect(getArbProfit('ltc', 'brl', 'usd', 'braziliex', 'wex', 0.01, 0.2, 0.001, 1000)).resolves.toEqual(-0.9442365234059391)
+  return expect(getArbProfit('ltc', 'brl', 'usd', 'braziliex', 'wex', 0.01, 0.2, 0.001, 1000)).resolves.toEqual(-9.442365234059366)
 })
 
 test('get latest traded price from Exmo', () => {
@@ -181,5 +181,5 @@ test('get trade profit between exmo and braziliex', () => {
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })
-  return expect(getArbProfit('ltc', 'usd', 'brl', 'exmo', 'braziliex', 0.2, 0.01, 0.01, 1000)).resolves.toEqual(0.3265409353054416)
+  return expect(getArbProfit('ltc', 'usd', 'brl', 'exmo', 'braziliex', 0.2, 0.01, 0.01, 1000)).resolves.toEqual(3.2654093530543378)
 })

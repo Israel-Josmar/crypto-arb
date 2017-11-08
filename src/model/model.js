@@ -166,8 +166,8 @@ export const getArbProfit = (criptocurrency, fiatcurrency1, fiatcurrency2, excha
       const criptoAmount = value/results[0]
       const criptoTransferred = criptoAmount - transfer_fee
       const newBalance = criptoTransferred*results[1]
-      const profit = newBalance/value - 1
-      return profit*100
+      const profit = newBalance-value
+      return profit
     })
   )
 }
