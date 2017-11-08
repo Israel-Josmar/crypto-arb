@@ -244,3 +244,15 @@ test('get best bid price from Bitstamp', () => {
     .reply(200, {'bid':'56.14505'})
   expect(getBidPrice('ltc_usd','bitstamp')).resolves.toEqual('56.14505')
 })
+
+test('convert last traded price at Bitstamp to brl', () => {
+  nock('https://www.bitstamp.net')
+    .get('/api/v2/ticker/ltcusd')
+    .reply(200, {'last':'56.14505'})
+  nock('http://free.currencyconverterapi.com')
+    .get('/api/v3/convert?q=USD_BRL&compact=y')
+    .reply(200, {
+      'USD_BRL':{'val':3.271397},
+    })
+  return expect(getBRLPrice('ltc_usd','bitstamp')).resolves.toEqual(183.67274813485)
+})

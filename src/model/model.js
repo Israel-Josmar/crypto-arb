@@ -45,6 +45,8 @@ export const getBRLPrice = (currency_pair, exchange) => {
     return convertBRLPriceWex(currency_pair)
   case 'exmo':
     return convertBRLPriceExmo(currency_pair)
+  case 'bitstamp':
+    return convertBRLPriceBitstamp(currency_pair)
   default:
 
   }
@@ -61,6 +63,15 @@ const convertBRLPriceWex = (currency_pair) => {
 
 const convertBRLPriceExmo = (currency_pair) => {
   const pricePromisse =  getPriceExmo(currency_pair)
+  const valuePromisse = usd_brl()
+  return (
+    Promise.all([pricePromisse,valuePromisse])
+      .then((results) => results[0]*results[1])
+  )
+}
+
+const convertBRLPriceBitstamp = (currency_pair) => {
+  const pricePromisse =  getPriceBitstamp(currency_pair)
   const valuePromisse = usd_brl()
   return (
     Promise.all([pricePromisse,valuePromisse])
