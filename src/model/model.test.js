@@ -7,6 +7,7 @@ import {
   getSpread,
   getFinalPrice,
   getArbProfit,
+  doArbitrage,
 } from './model'
 
 var nock = require('nock')
@@ -182,4 +183,43 @@ test('get trade profit between exmo and braziliex', () => {
       'USD_BRL':{'val':3.271397},
     })
   return expect(getArbProfit('ltc', 'usd', 'brl', 'exmo', 'braziliex', 0.2, 0.01, 0.01, 1000)).resolves.toEqual(3.2654093530543378)
+})
+
+test('do a arbitrage operation', () => {
+  nock('https://api.exmo.com')
+    .get('/v1/ticker/')
+    .reply(200, {'LTC_USD':{'last_trade':56.14505}})
+  nock('https://braziliex.com')
+    .get('/api/v1/public/ticker/ltc_brl')
+    .reply(200, {'last':'185.00000000'})
+  nock('http://free.currencyconverterapi.com')
+    .get('/api/v3/convert?q=USD_BRL&compact=y')
+    .reply(200, {
+      'USD_BRL':{'val':3.271397},
+    })
+  const exchange1 = {
+    'name': 'exmo',
+    'commission': 0.2,
+    'withdraw_fee': 0.01,
+    'fiatcurrency': 'usd',
+  }
+  const exchange2 = {
+    'name': 'braziliex',
+    'commission': 0.01,
+    'withdraw_fee': [9, 0.25],
+    'fiatcurrency': 'brl',
+  }
+  const data = {
+    'initial_value': 1000,
+    'deposit_currency': 'brl',
+    'deposit_fee': [0, 3],
+    'criptocurrency': 'ltc',
+    'exchange1': exchange1,
+    'exchange2': exchange2,
+  }
+  const profit = {
+    "profit": 3.111952622462695,
+    "relative_profit": 0.31119526224626953,
+  }
+  return expect(doArbitrage(data)).resolves.toEqual(profit)
 })

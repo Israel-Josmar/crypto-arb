@@ -171,3 +171,21 @@ export const getArbProfit = (criptocurrency, fiatcurrency1, fiatcurrency2, excha
     })
   )
 }
+
+export const doArbitrage = (data) => {
+  const deposit_fee = data.deposit_fee[0] + data.initial_value*(data.deposit_fee[1]/100)
+  const value = data.initial_value - deposit_fee
+  const criptocurrency = data.criptocurrency
+  const fiatcurrency1 = data.exchange1.fiatcurrency
+  const fiatcurrency2 = data.exchange2.fiatcurrency
+  const exchange1 = data.exchange1.name
+  const exchange2 = data.exchange2.name
+  const commission1 = data.exchange1.commission
+  const commission2 = data.exchange2.commission
+  const withdraw_fee = data.exchange1.withdraw_fee
+  const profit = getArbProfit(criptocurrency, fiatcurrency1, fiatcurrency2, exchange1, exchange2, commission1, commission2, withdraw_fee, value)
+    .then((result) => {
+      return {'profit': result, 'relative_profit': result/data.initial_value*100}
+    })
+  return profit
+}
