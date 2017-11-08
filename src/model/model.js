@@ -16,6 +16,12 @@ import {
   getBidPriceExmo,
 } from './exmo'
 
+import {
+  getPriceBitstamp,
+  getAskPriceBitstamp,
+  getBidPriceBitstamp,
+} from './bitstamp'
+
 const request = require('request')
 
 export const getPrice = (currency_pair, exchange) => {
@@ -26,6 +32,8 @@ export const getPrice = (currency_pair, exchange) => {
     return getPriceWex(currency_pair)
   case 'exmo':
     return getPriceExmo(currency_pair)
+  case 'bitstamp':
+    return getPriceBitstamp(currency_pair)
   default:
 
   }
@@ -68,6 +76,8 @@ export const getAskPrice = (currency_pair, exchange) => {
     return getAskPriceWex(currency_pair)
   case 'exmo':
     return getAskPriceExmo(currency_pair)
+  case 'bitstamp':
+    return getAskPriceBitstamp(currency_pair)
   default:
 
   }
@@ -81,6 +91,8 @@ export const getBidPrice = (currency_pair, exchange) => {
     return getBidPriceWex(currency_pair)
   case 'exmo':
     return getBidPriceExmo(currency_pair)
+  case 'bitstamp':
+    return getBidPriceBitstamp(currency_pair)
   default:
   }
 }

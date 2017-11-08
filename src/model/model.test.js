@@ -223,3 +223,24 @@ test('do a arbitrage operation', () => {
   }
   return expect(doArbitrage(data)).resolves.toEqual(profit)
 })
+
+test('get latest traded price from Bitstamp', () => {
+  nock('https://www.bitstamp.net')
+    .get('/api/v2/ticker/ltcusd')
+    .reply(200, {'last':'56.14505'})
+  return expect(getPrice('ltc_usd','bitstamp')).resolves.toEqual('56.14505')
+})
+
+test('get best ask price from Bitstamp', () => {
+  nock('https://www.bitstamp.net')
+    .get('/api/v2/ticker/ltcusd')
+    .reply(200, {'ask':'56.14505'})
+  return expect(getAskPrice('ltc_usd','bitstamp')).resolves.toEqual('56.14505')
+})
+
+test('get best bid price from Bitstamp', () => {
+  nock('https://www.bitstamp.net')
+    .get('/api/v2/ticker/ltcusd')
+    .reply(200, {'bid':'56.14505'})
+  expect(getBidPrice('ltc_usd','bitstamp')).resolves.toEqual('56.14505')
+})
