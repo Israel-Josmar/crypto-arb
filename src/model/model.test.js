@@ -307,3 +307,42 @@ test('do a arbitrage operation between Bitstamp and Braziliex', () => {
   }
   return expect(doArbitrage(data)).resolves.toEqual(profit)
 })
+
+test('do a arbitrage operation between Braziliex and Wex', () => {
+  nock('https://wex.nz')
+    .get('/api/3/ticker/ltc_usd')
+    .reply(200, {'ltc_usd':{'last':56.14505}})
+  nock('https://braziliex.com')
+    .get('/api/v1/public/ticker/ltc_brl')
+    .reply(200, {'last':'185.00000000'})
+  nock('http://free.currencyconverterapi.com')
+    .get('/api/v3/convert?q=USD_BRL&compact=y')
+    .reply(200, {
+      'USD_BRL':{'val':3.271397},
+    })
+  const exchange1 = {
+    'name': 'braziliex',
+    'commission': 0.01,
+    'withdraw_fee': 0.001,
+    'fiatcurrency': 'brl',
+  }
+  const exchange2 = {
+    'name': 'wex',
+    'commission': 0.2,
+    'withdraw_fee': [0, 0],
+    'fiatcurrency': 'usd',
+  }
+  const data = {
+    'initial_value': 1000,
+    'deposit_currency': 'brl',
+    'deposit_fee': [0, 0],
+    'criptocurrency': 'ltc',
+    'exchange1': exchange1,
+    'exchange2': exchange2,
+  }
+  const profit = {
+    "profit": -9.442365234059366,
+    "relative_profit": -0.9442365234059367,
+  }
+  return expect(doArbitrage(data)).resolves.toEqual(profit)
+})
