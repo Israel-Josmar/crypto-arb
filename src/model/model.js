@@ -168,6 +168,9 @@ export const getFinalPrice = (criptocurrency, fiatcurrency, exchange, commission
   case 'exmo':
     pricePromisse = getBRLPrice(currency_pair, exchange)
     break
+  case 'bitstamp':
+    pricePromisse = getBRLPrice(currency_pair, exchange)
+    break
   default:
 
   }
