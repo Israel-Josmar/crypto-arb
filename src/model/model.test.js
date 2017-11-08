@@ -268,3 +268,42 @@ test('get Bitstamp price with trade commission', () => {
     })
   return expect(getFinalPrice('ltc', 'usd', 'bitstamp', 0.25)).resolves.toEqual(183.21356626451288)
 })
+
+test('do a arbitrage operation between Bitstamp and Braziliex', () => {
+  nock('https://www.bitstamp.net')
+    .get('/api/v2/ticker/ltcusd')
+    .reply(200, {'last':'56.14505'})
+  nock('https://braziliex.com')
+    .get('/api/v1/public/ticker/ltc_brl')
+    .reply(200, {'last':'185.00000000'})
+  nock('http://free.currencyconverterapi.com')
+    .get('/api/v3/convert?q=USD_BRL&compact=y')
+    .reply(200, {
+      'USD_BRL':{'val':3.271397},
+    })
+  const exchange1 = {
+    'name': 'bitstamp',
+    'commission': 0.25,
+    'withdraw_fee': 0.01,
+    'fiatcurrency': 'usd',
+  }
+  const exchange2 = {
+    'name': 'braziliex',
+    'commission': 0.01,
+    'withdraw_fee': [9, 0.25],
+    'fiatcurrency': 'brl',
+  }
+  const data = {
+    'initial_value': 1000,
+    'deposit_currency': 'brl',
+    'deposit_fee': [0, 3],
+    'criptocurrency': 'ltc',
+    'exchange1': exchange1,
+    'exchange2': exchange2,
+  }
+  const profit = {
+    "profit": 2.6256874017034306,
+    "relative_profit": 0.2625687401703431,
+  }
+  return expect(doArbitrage(data)).resolves.toEqual(profit)
+})
