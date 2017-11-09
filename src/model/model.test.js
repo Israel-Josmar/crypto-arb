@@ -34,7 +34,7 @@ test('get best bid price from braziliex', () => {
 })
 
 test('shows get latest traded price from Wex', () => {
-  nock('http://localhost:3030')
+  nock('http://localhost:3000')
     .get('/ltc_usd')
     .reply(200, {'ltc_usd':{'last':56.14505}})
   return expect(getPrice('ltc_usd','wex')).resolves.toEqual(56.14505)
@@ -64,7 +64,7 @@ test('get usd x brl', () => {
 })
 
 test('convert last traded price at wex to brl', () => {
-  nock('http://localhost:3030')
+  nock('http://localhost:3000')
     .get('/ltc_usd')
     .reply(200, {
       'ltc_usd':{'last':56.14505},
@@ -78,7 +78,7 @@ test('convert last traded price at wex to brl', () => {
 })
 
 test('get spread between two exchanges', () => {
-  nock('http://localhost:3030')
+  nock('http://localhost:3000')
     .get('/ltc_usd')
     .reply(200, {
       'ltc_usd':{'last':56.14505},
@@ -95,7 +95,7 @@ test('get spread between two exchanges', () => {
 })
 
 test('get price with trade commission', () => {
-  nock('http://localhost:3030')
+  nock('http://localhost:3000')
     .get('/ltc_usd')
     .reply(200, {
       'ltc_usd':{'last':56.14505},
@@ -112,7 +112,7 @@ test('get trade profit', () => {
   nock('https://braziliex.com')
     .get('/api/v1/public/ticker/ltc_brl')
     .reply(200, {'last':'185.00000000'})
-  nock('http://localhost:3030')
+  nock('http://localhost:3000')
     .get('/ltc_usd')
     .reply(200, {
       'ltc_usd':{'last':56.14505},
@@ -309,7 +309,7 @@ test('do a arbitrage operation between Bitstamp and Braziliex', () => {
 })
 
 test('do a arbitrage operation between Braziliex and Wex', () => {
-  nock('http://localhost:3030')
+  nock('http://localhost:3000')
     .get('/ltc_usd')
     .reply(200, {'ltc_usd':{'last':56.14505}})
   nock('https://braziliex.com')
