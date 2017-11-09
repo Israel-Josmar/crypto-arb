@@ -26,7 +26,7 @@ export const getBidPriceWex = (currency_pair) => {
 }
 
 export const getPriceWex = (currency_pair) => {
-  const uri = 'http://localhost:3030/'+currency_pair
+  const uri = 'http://localhost:3000/'+currency_pair
   const options = { url: uri, json: true }
   return new Promise(function(resolve, reject) {
     request(options, (error, response, json) => {

@@ -2,6 +2,7 @@
   "name": "crypto-arb",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3030",
   "dependencies": {
     "nock": "^9.0.27",
     "react": "^16.0.0",
