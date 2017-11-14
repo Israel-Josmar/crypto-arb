@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import {
-  getPrice,
+  doArbitrage,
 } from './model/model'
 
 
@@ -24,15 +24,63 @@ class Form extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    this.props._handleSubmit(this.state.exchange)
+    const exchange1 = {
+      'name': this.state.exchange1,
+      'commission': this.state.commission1,
+      'withdraw_fee': this.state.withdraw_fee1,
+      'fiatcurrency': this.state.fiatcurrency1,
+    }
+    const exchange2 = {
+      'name': this.state.exchange1,
+      'commission': this.state.commission2,
+      'withdraw_fee': [this.state.withdraw_fee2, this.state.withdraw_fee2_p],
+      'fiatcurrency': this.state.fiatcurrency2,
+    }
+    const data = {
+      'initial_value': this.state.deposit,
+      'deposit_currency': this.state.deposit_currency,
+      'deposit_fee': [this.state.deposit_fee, this.state.deposit_fee_p],
+      'criptocurrency': this.state.criptocurrency,
+      'exchange1': exchange1,
+      'exchange2': exchange2,
+    }
+    this.props._handleSubmit(data)
   }
 
   render() {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <label>Exchange: </label>
-          <input name="exchange" type="text" value={this.state.exchange} onChange={this.handleChange} />
+          <label for="exchange1">Exchange1: </label>
+          <input id="exchange1" name="exchange1" type="text" value={this.state.exchange1} onChange={this.handleChange} /><br />
+          <label for="commission1">Comission: </label>
+          <input id="commission1" name="commission1" type="text" value={this.state.commission1} onChange={this.handleChange} /><br />
+          <label for="withdraw_fee1">Withdraw Fee: </label>
+          <input id="withdraw_fee1" name="withdraw_fee1" type="text" value={this.state.withdraw_fee1} onChange={this.handleChange} /><br />
+          <label for="fiatcurrency1">Fiat Currency: </label>
+          <input id="fiatcurrency1" name="fiatcurrency1" type="text" value={this.state.fiatcurrency1} onChange={this.handleChange} /><br />
+          <br />
+          <label for="exchange2">Exchange2: </label>
+          <input id="exchange2" name="exchange2" type="text" value={this.state.exchange2} onChange={this.handleChange} /><br />
+          <label for="commission2">Comission: </label>
+          <input id="commission2" name="commission2" type="text" value={this.state.commission2} onChange={this.handleChange} /><br />
+          <label for="withdraw_fee2">Withdraw Fee: </label>
+          <input id="withdraw_fee2" name="withdraw_fee2" type="text" value={this.state.withdraw_fee2} onChange={this.handleChange} /><br />
+          <label for="withdraw_fee2_p">Withdraw Fee (%): </label>
+          <input id="withdraw_fee2_p" name="withdraw_fee2_p" type="text" value={this.state.withdraw_fee2_p} onChange={this.handleChange} /><br />
+          <label for="fiatcurrency2">Fiat Currency: </label>
+          <input id="fiatcurrency2" name="fiatcurrency2" type="text" value={this.state.fiatcurrency2} onChange={this.handleChange} /><br />
+          <br/>
+          <label for="deposit">Deposit Value: </label>
+          <input id="deposit" name="deposit" type="text" value={this.state.deposit} onChange={this.handleChange} /><br />
+          <label for="deposit_currency">Deposit Currency: </label>
+          <input id="deposit_currency" name="deposit_currency" type="text" value={this.state.deposit_currency} onChange={this.handleChange} /><br />
+          <label for="deposit_fee">Deposit Fee: </label>
+          <input id="deposit_fee" name="deposit_fee" type="text" value={this.state.deposit_fee} onChange={this.handleChange} /><br />
+          <label for="deposit_fee_p">Deposit Fee (%): </label>
+          <input id="deposit_fee_p" name="deposit_fee_p" type="text" value={this.state.deposit_fee_p} onChange={this.handleChange} /><br />
+          <label for="criptocurrency">Criptocurrency: </label>
+          <input id="criptocurrency" name="criptocurrency" type="text" value={this.state.criptocurrency} onChange={this.handleChange} /><br />
           <br/>
           <input type='submit' />
         </form>
@@ -57,9 +105,9 @@ class App extends React.Component {
     }
   }
 
-  _handleSubmit(exchange) {
+  _handleSubmit(data) {
     const self = this
-    getPrice('ltc_usd', exchange)
+    doArbitrage(data)
       .then((value) => {
         self.setState({
           value: value,
