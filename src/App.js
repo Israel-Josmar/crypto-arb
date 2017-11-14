@@ -31,7 +31,7 @@ class Form extends React.Component {
       'fiatcurrency': this.state.fiatcurrency1,
     }
     const exchange2 = {
-      'name': this.state.exchange1,
+      'name': this.state.exchange2,
       'commission': this.state.commission2,
       'withdraw_fee': [this.state.withdraw_fee2, this.state.withdraw_fee2_p],
       'fiatcurrency': this.state.fiatcurrency2,
