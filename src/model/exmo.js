@@ -1,8 +1,11 @@
+import {
+  exmo,
+} from './config'
 
 const request = require('request')
 
 export const getPriceExmo = (currency_pair) => {
-  const uri = 'https://api.exmo.com/v1/ticker/'
+  const uri = exmo.host+exmo.ticker_uri
   const options = { url: uri, json: true }
   return new Promise(function(resolve, reject) {
     request(options, (error, response, json) => {
@@ -14,7 +17,7 @@ export const getPriceExmo = (currency_pair) => {
 }
 
 export const getAskPriceExmo = (currency_pair) => {
-  const uri = 'https://api.exmo.com/v1/order_book/?pair='+currency_pair.toUpperCase()
+  const uri = exmo.host+exmo.orderbook_uri+currency_pair.toUpperCase()
   const options = { url: uri, json: true }
   return new Promise(function(resolve, reject) {
     request(options, (error, response, json) => {
@@ -26,7 +29,7 @@ export const getAskPriceExmo = (currency_pair) => {
 }
 
 export const getBidPriceExmo = (currency_pair) => {
-  const uri = 'https://api.exmo.com/v1/order_book/?pair='+currency_pair.toUpperCase()
+  const uri = exmo.host+exmo.orderbook_uri+currency_pair.toUpperCase()
   const options = { url: uri, json: true }
   return new Promise(function(resolve, reject) {
     request(options, (error, response, json) => {

@@ -1,9 +1,12 @@
+import {
+  bitstamp,
+} from './config'
 
 const request = require('request')
 
 export const getAskPriceBitstamp = (currency_pair) => {
   const newCurrencyPair = currency_pair.replace('_','')
-  const uri = 'https://www.bitstamp.net/api/v2/ticker/'+newCurrencyPair
+  const uri = bitstamp.host+bitstamp.ticker_uri+newCurrencyPair
   const options = { url: uri, json: true }
   return new Promise(function(resolve, reject) {
     request(options, (error, response, json) => {
@@ -16,7 +19,7 @@ export const getAskPriceBitstamp = (currency_pair) => {
 
 export const getBidPriceBitstamp = (currency_pair) => {
   const newCurrencyPair = currency_pair.replace('_','')
-  const uri = 'https://www.bitstamp.net/api/v2/ticker/'+newCurrencyPair
+  const uri = bitstamp.host+bitstamp.ticker_uri+newCurrencyPair
   const options = { url: uri, json: true }
   return new Promise(function(resolve, reject) {
     request(options, (error, response, json) => {
@@ -29,7 +32,7 @@ export const getBidPriceBitstamp = (currency_pair) => {
 
 export const getPriceBitstamp = (currency_pair) => {
   const newCurrencyPair = currency_pair.replace('_','')
-  const uri = 'https://www.bitstamp.net/api/v2/ticker/'+newCurrencyPair
+  const uri = bitstamp.host+bitstamp.ticker_uri+newCurrencyPair
   const options = { url: uri, json: true }
   return new Promise(function(resolve, reject) {
     request(options, (error, response, json) => {

@@ -22,6 +22,10 @@ import {
   getBidPriceBitstamp,
 } from './bitstamp'
 
+import {
+  currencies,
+} from './config'
+
 const request = require('request')
 
 export const getPrice = (currency_pair, exchange) => {
@@ -109,7 +113,7 @@ export const getBidPrice = (currency_pair, exchange) => {
 }
 
 export const usd_brl = () => {
-  const uri = 'http://free.currencyconverterapi.com/api/v3/convert?q=USD_BRL&compact=y'
+  const uri = currencies.usd_brl.host+currencies.usd_brl.uri
   const options = { url: uri, json: true }
   return new Promise(function(resolve, reject) {
     request(options, (error, response, json) => {

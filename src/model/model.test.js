@@ -10,53 +10,61 @@ import {
   doArbitrage,
 } from './model'
 
+import {
+  bitstamp,
+  exmo,
+  braziliex,
+  wex,
+  currencies,
+} from './config'
+
 var nock = require('nock')
 
 test('get latest traded price from braziliex', () => {
-  nock('https://braziliex.com')
-    .get('/api/v1/public/ticker/ltc_brl')
+  nock(braziliex.host)
+    .get(braziliex.ticker_uri+'ltc_brl')
     .reply(200, {'last':'185.00000000'})
   return expect(getPrice('ltc_brl','braziliex')).resolves.toEqual('185.00000000')
 })
 
 test('get best ask price from braziliex', () => {
-  nock('https://braziliex.com')
-    .get('/api/v1/public/orderbook/ltc_brl')
+  nock(braziliex.host)
+    .get(braziliex.orderbook_uri+'ltc_brl')
     .reply(200, {'asks': [{'price':189}]})
   return expect(getAskPrice('ltc_brl','braziliex')).resolves.toEqual(189)
 })
 
 test('get best bid price from braziliex', () => {
-  nock('https://braziliex.com')
-    .get('/api/v1/public/orderbook/ltc_brl')
+  nock(braziliex.host)
+    .get(braziliex.orderbook_uri+'ltc_brl')
     .reply(200, {'bids': [{'price':183}]})
   expect(getBidPrice('ltc_brl','braziliex')).resolves.toEqual(183)
 })
 
 test('shows get latest traded price from Wex', () => {
-  nock('http://localhost:3000')
-    .get('/ltc_usd')
+  nock(wex.host)
+    .get(wex.ticker_uri+'ltc_usd')
     .reply(200, {'ltc_usd':{'last':56.14505}})
   return expect(getPrice('ltc_usd','wex')).resolves.toEqual(56.14505)
 })
 
 test('get best ask price from Wex', () => {
-  nock('https://wex.nz')
-    .get('/api/3/depth/ltc_usd')
+  nock(wex.host)
+    .get(wex.depth_uri+'ltc_usd')
     .reply(200, {'ltc_usd':{'asks': [[56.4]]}})
   return expect(getAskPrice('ltc_usd','wex')).resolves.toEqual(56.4)
 })
 
 test('get best bid price from Wex', () => {
-  nock('https://wex.nz')
-    .get('/api/3/depth/ltc_usd')
+  nock(wex.host)
+    .get(wex.depth_uri+'ltc_usd')
     .reply(200, {'ltc_usd':{'bids': [[56.140001]]}})
   return expect(getBidPrice('ltc_usd','wex')).resolves.toEqual(56.140001)
 })
 
 test('get usd x brl', () => {
-  nock('http://free.currencyconverterapi.com')
-    .get('/api/v3/convert?q=USD_BRL&compact=y')
+  nock(currencies.usd_brl.host)
+    .get(currencies.usd_brl.uri)
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })
@@ -64,13 +72,13 @@ test('get usd x brl', () => {
 })
 
 test('convert last traded price at wex to brl', () => {
-  nock('http://localhost:3000')
-    .get('/ltc_usd')
+  nock(wex.host)
+    .get(wex.ticker_uri+'ltc_usd')
     .reply(200, {
       'ltc_usd':{'last':56.14505},
     })
-  nock('http://free.currencyconverterapi.com')
-    .get('/api/v3/convert?q=USD_BRL&compact=y')
+  nock(currencies.usd_brl.host)
+    .get(currencies.usd_brl.uri)
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })
@@ -78,30 +86,30 @@ test('convert last traded price at wex to brl', () => {
 })
 
 test('get spread between two exchanges', () => {
-  nock('http://localhost:3000')
-    .get('/ltc_usd')
+  nock(wex.host)
+    .get(wex.ticker_uri+'ltc_usd')
     .reply(200, {
       'ltc_usd':{'last':56.14505},
     })
-  nock('http://free.currencyconverterapi.com')
-    .get('/api/v3/convert?q=USD_BRL&compact=y')
+  nock(currencies.usd_brl.host)
+    .get(currencies.usd_brl.uri)
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })
-  nock('https://braziliex.com')
-    .get('/api/v1/public/ticker/ltc_brl')
+  nock(braziliex.host)
+    .get(braziliex.ticker_uri+'ltc_brl')
     .reply(200, {'last':'185.00000000'})
   return expect(getSpread('ltc', 'braziliex', 'brl', 'wex', 'usd')).resolves.toEqual(0.7226177419502378)
 })
 
 test('get price with trade commission', () => {
-  nock('http://localhost:3000')
-    .get('/ltc_usd')
+  nock(wex.host)
+    .get(wex.ticker_uri+'ltc_usd')
     .reply(200, {
       'ltc_usd':{'last':56.14505},
     })
-  nock('http://free.currencyconverterapi.com')
-    .get('/api/v3/convert?q=USD_BRL&compact=y')
+  nock(currencies.usd_brl.host)
+    .get(currencies.usd_brl.uri)
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })
@@ -109,16 +117,16 @@ test('get price with trade commission', () => {
 })
 
 test('get trade profit', () => {
-  nock('https://braziliex.com')
-    .get('/api/v1/public/ticker/ltc_brl')
+  nock(braziliex.host)
+    .get(braziliex.ticker_uri+'ltc_brl')
     .reply(200, {'last':'185.00000000'})
-  nock('http://localhost:3000')
-    .get('/ltc_usd')
+  nock(wex.host)
+    .get(wex.ticker_uri+'ltc_usd')
     .reply(200, {
       'ltc_usd':{'last':56.14505},
     })
-  nock('http://free.currencyconverterapi.com')
-    .get('/api/v3/convert?q=USD_BRL&compact=y')
+  nock(currencies.usd_brl.host)
+    .get(currencies.usd_brl.uri)
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })
@@ -126,32 +134,32 @@ test('get trade profit', () => {
 })
 
 test('get latest traded price from Exmo', () => {
-  nock('https://api.exmo.com')
-    .get('/v1/ticker/')
+  nock(exmo.host)
+    .get(exmo.ticker_uri)
     .reply(200, {'LTC_USD':{'last_trade':56.14505}})
   return expect(getPrice('ltc_usd','exmo')).resolves.toEqual(56.14505)
 })
 
 test('get best ask price from Exmo', () => {
-  nock('https://api.exmo.com')
-    .get('/v1/order_book/?pair=LTC_USD')
+  nock(exmo.host)
+    .get(exmo.orderbook_uri+'LTC_USD')
     .reply(200, {'LTC_USD':{'ask_top':56.4}})
   return expect(getAskPrice('ltc_usd','exmo')).resolves.toEqual(56.4)
 })
 
 test('get best bid price from Exmo', () => {
-  nock('https://api.exmo.com')
-    .get('/v1/order_book/?pair=LTC_USD')
+  nock(exmo.host)
+    .get(exmo.orderbook_uri+'LTC_USD')
     .reply(200, {'LTC_USD':{'bid_top':56.140001}})
   return expect(getBidPrice('ltc_usd','exmo')).resolves.toEqual(56.140001)
 })
 
 test('convert last traded price at Exmo to brl', () => {
-  nock('https://api.exmo.com')
-    .get('/v1/ticker/')
+  nock(exmo.host)
+    .get(exmo.ticker_uri)
     .reply(200, {'LTC_USD':{'last_trade':56.14505}})
-  nock('http://free.currencyconverterapi.com')
-    .get('/api/v3/convert?q=USD_BRL&compact=y')
+  nock(currencies.usd_brl.host)
+    .get(currencies.usd_brl.uri)
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })
@@ -159,11 +167,11 @@ test('convert last traded price at Exmo to brl', () => {
 })
 
 test('get exmo price with trade commission', () => {
-  nock('https://api.exmo.com')
-    .get('/v1/ticker/')
+  nock(exmo.host)
+    .get(exmo.ticker_uri)
     .reply(200, {'LTC_USD':{'last_trade':56.14505}})
-  nock('http://free.currencyconverterapi.com')
-    .get('/api/v3/convert?q=USD_BRL&compact=y')
+  nock(currencies.usd_brl.host)
+    .get(currencies.usd_brl.uri)
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })
@@ -171,14 +179,14 @@ test('get exmo price with trade commission', () => {
 })
 
 test('get trade profit between exmo and braziliex', () => {
-  nock('https://api.exmo.com')
-    .get('/v1/ticker/')
+  nock(exmo.host)
+    .get(exmo.ticker_uri)
     .reply(200, {'LTC_USD':{'last_trade':56.14505}})
-  nock('https://braziliex.com')
-    .get('/api/v1/public/ticker/ltc_brl')
+  nock(braziliex.host)
+    .get(braziliex.ticker_uri+'ltc_brl')
     .reply(200, {'last':'185.00000000'})
-  nock('http://free.currencyconverterapi.com')
-    .get('/api/v3/convert?q=USD_BRL&compact=y')
+  nock(currencies.usd_brl.host)
+    .get(currencies.usd_brl.uri)
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })
@@ -186,14 +194,14 @@ test('get trade profit between exmo and braziliex', () => {
 })
 
 test('do a arbitrage operation', () => {
-  nock('https://api.exmo.com')
-    .get('/v1/ticker/')
+  nock(exmo.host)
+    .get(exmo.ticker_uri)
     .reply(200, {'LTC_USD':{'last_trade':56.14505}})
-  nock('https://braziliex.com')
-    .get('/api/v1/public/ticker/ltc_brl')
+  nock(braziliex.host)
+    .get(braziliex.ticker_uri+'ltc_brl')
     .reply(200, {'last':'185.00000000'})
-  nock('http://free.currencyconverterapi.com')
-    .get('/api/v3/convert?q=USD_BRL&compact=y')
+  nock(currencies.usd_brl.host)
+    .get(currencies.usd_brl.uri)
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })
@@ -225,32 +233,32 @@ test('do a arbitrage operation', () => {
 })
 
 test('get latest traded price from Bitstamp', () => {
-  nock('https://www.bitstamp.net')
-    .get('/api/v2/ticker/ltcusd')
+  nock(bitstamp.host)
+    .get(bitstamp.ticker_uri+'ltcusd')
     .reply(200, {'last':'56.14505'})
   return expect(getPrice('ltc_usd','bitstamp')).resolves.toEqual('56.14505')
 })
 
 test('get best ask price from Bitstamp', () => {
-  nock('https://www.bitstamp.net')
-    .get('/api/v2/ticker/ltcusd')
+  nock(bitstamp.host)
+    .get(bitstamp.ticker_uri+'ltcusd')
     .reply(200, {'ask':'56.14505'})
   return expect(getAskPrice('ltc_usd','bitstamp')).resolves.toEqual('56.14505')
 })
 
 test('get best bid price from Bitstamp', () => {
-  nock('https://www.bitstamp.net')
-    .get('/api/v2/ticker/ltcusd')
+  nock(bitstamp.host)
+    .get(bitstamp.ticker_uri+'ltcusd')
     .reply(200, {'bid':'56.14505'})
   expect(getBidPrice('ltc_usd','bitstamp')).resolves.toEqual('56.14505')
 })
 
 test('convert last traded price at Bitstamp to brl', () => {
-  nock('https://www.bitstamp.net')
-    .get('/api/v2/ticker/ltcusd')
+  nock(bitstamp.host)
+    .get(bitstamp.ticker_uri+'ltcusd')
     .reply(200, {'last':'56.14505'})
-  nock('http://free.currencyconverterapi.com')
-    .get('/api/v3/convert?q=USD_BRL&compact=y')
+  nock(currencies.usd_brl.host)
+    .get(currencies.usd_brl.uri)
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })
@@ -258,11 +266,11 @@ test('convert last traded price at Bitstamp to brl', () => {
 })
 
 test('get Bitstamp price with trade commission', () => {
-  nock('https://www.bitstamp.net')
-    .get('/api/v2/ticker/ltcusd')
+  nock(bitstamp.host)
+    .get(bitstamp.ticker_uri+'ltcusd')
     .reply(200, {'last':'56.14505'})
-  nock('http://free.currencyconverterapi.com')
-    .get('/api/v3/convert?q=USD_BRL&compact=y')
+  nock(currencies.usd_brl.host)
+    .get(currencies.usd_brl.uri)
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })
@@ -270,14 +278,14 @@ test('get Bitstamp price with trade commission', () => {
 })
 
 test('do a arbitrage operation between Bitstamp and Braziliex', () => {
-  nock('https://www.bitstamp.net')
-    .get('/api/v2/ticker/ltcusd')
+  nock(bitstamp.host)
+    .get(bitstamp.ticker_uri+'ltcusd')
     .reply(200, {'last':'56.14505'})
-  nock('https://braziliex.com')
-    .get('/api/v1/public/ticker/ltc_brl')
+  nock(braziliex.host)
+    .get(braziliex.ticker_uri+'ltc_brl')
     .reply(200, {'last':'185.00000000'})
-  nock('http://free.currencyconverterapi.com')
-    .get('/api/v3/convert?q=USD_BRL&compact=y')
+  nock(currencies.usd_brl.host)
+    .get(currencies.usd_brl.uri)
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })
@@ -309,14 +317,14 @@ test('do a arbitrage operation between Bitstamp and Braziliex', () => {
 })
 
 test('do a arbitrage operation between Braziliex and Wex', () => {
-  nock('http://localhost:3000')
-    .get('/ltc_usd')
+  nock(wex.host)
+    .get(wex.ticker_uri+'ltc_usd')
     .reply(200, {'ltc_usd':{'last':56.14505}})
-  nock('https://braziliex.com')
-    .get('/api/v1/public/ticker/ltc_brl')
+  nock(braziliex.host)
+    .get(braziliex.ticker_uri+'ltc_brl')
     .reply(200, {'last':'185.00000000'})
-  nock('http://free.currencyconverterapi.com')
-    .get('/api/v3/convert?q=USD_BRL&compact=y')
+  nock(currencies.usd_brl.host)
+    .get(currencies.usd_brl.uri)
     .reply(200, {
       'USD_BRL':{'val':3.271397},
     })

@@ -1,8 +1,11 @@
+import {
+  braziliex,
+} from './config'
 
 const request = require('request')
 
 export const getAskPriceBrex = (currency_pair) => {
-  const uri = 'https://braziliex.com/api/v1/public/orderbook/'+currency_pair
+  const uri = braziliex.host+braziliex.orderbook_uri+currency_pair
   const options = { url: uri, json: true }
   return new Promise(function(resolve, reject) {
     request(options, (error, response, json) => {
@@ -14,7 +17,7 @@ export const getAskPriceBrex = (currency_pair) => {
 }
 
 export const getBidPriceBrex = (currency_pair) => {
-  const uri = 'https://braziliex.com/api/v1/public/orderbook/'+currency_pair
+  const uri = braziliex.host+braziliex.orderbook_uri+currency_pair
   const options = { url: uri, json: true }
   return new Promise(function(resolve, reject) {
     request(options, (error, response, json) => {
@@ -26,7 +29,7 @@ export const getBidPriceBrex = (currency_pair) => {
 }
 
 export const getPriceBrex = (currency_pair) => {
-  const uri = 'https://braziliex.com/api/v1/public/ticker/'+currency_pair
+  const uri = braziliex.host+braziliex.ticker_uri+currency_pair
   const options = { url: uri, json: true }
   return new Promise(function(resolve, reject) {
     request(options, (error, response, json) => {
