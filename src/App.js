@@ -110,7 +110,7 @@ class App extends React.Component {
     doArbitrage(data)
       .then((value) => {
         self.setState({
-          value: value,
+          value: 'Profit: '+value.profit+' - '+value.relative_profit+'%',
         })
         console.log(value)
       })
