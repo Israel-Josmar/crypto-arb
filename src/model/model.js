@@ -215,7 +215,7 @@ export const doArbitrage = (data) => {
   const withdraw_fee = data.exchange1.withdraw_fee
   const profit = getArbProfit(criptocurrency, fiatcurrency1, fiatcurrency2, exchange1, exchange2, commission1, commission2, withdraw_fee, value)
     .then((result) => {
-      return {'profit': result, 'relative_profit': result/data.initial_value*100}
+      return {'profit': result-(data.initial_value-value), 'relative_profit': (result-(data.initial_value-value))/data.initial_value*100}
     })
   return profit
 }

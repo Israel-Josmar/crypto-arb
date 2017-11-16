@@ -226,8 +226,8 @@ test('do a arbitrage operation', () => {
     'exchange2': exchange2,
   }
   const profit = {
-    "profit": 3.111952622462695,
-    "relative_profit": 0.31119526224626953,
+    "profit": -26.888047377537305,
+    "relative_profit": -2.6888047377537303,
   }
   return expect(doArbitrage(data)).resolves.toEqual(profit)
 })
@@ -310,8 +310,8 @@ test('do a arbitrage operation between Bitstamp and Braziliex', () => {
     'exchange2': exchange2,
   }
   const profit = {
-    "profit": 2.6256874017034306,
-    "relative_profit": 0.2625687401703431,
+    "profit": -27.37431259829657,
+    "relative_profit": -2.737431259829657,
   }
   return expect(doArbitrage(data)).resolves.toEqual(profit)
 })
