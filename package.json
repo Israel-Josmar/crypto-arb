@@ -1,6 +1,5 @@
 {
   "name": "crypto-arb",
-  "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:3030",
   "dependencies": {
