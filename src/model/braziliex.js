@@ -28,14 +28,11 @@ export const getBidPriceBrex = (currency_pair) => {
   })
 }
 
-export const getPriceBrex = (currency_pair) => {
+export const getPriceBrex = async (currency_pair) => {
   const uri = braziliex.host+braziliex.ticker_uri+currency_pair
-  const options = { url: uri, json: true }
-  return new Promise(function(resolve, reject) {
-    request(options, (error, response, json) => {
-      if (!error && response.statusCode === 200) {
-        resolve(json.last)
-      }
-    })
-  })
+
+  const response = await fetch(uri)
+  const payload = await response.json()
+
+  return payload.last
 }
