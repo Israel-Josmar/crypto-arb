@@ -51,35 +51,35 @@ class Form extends React.Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <label for="exchange1">Exchange1: </label>
+          <label htmlFor="exchange1">Exchange1: </label>
           <input id="exchange1" name="exchange1" type="text" value={this.state.exchange1} onChange={this.handleChange} /><br />
-          <label for="commission1">Comission: </label>
+          <label htmlFor="commission1">Comission: </label>
           <input id="commission1" name="commission1" type="text" value={this.state.commission1} onChange={this.handleChange} /><br />
-          <label for="withdraw_fee1">Withdraw Fee: </label>
+          <label htmlFor="withdraw_fee1">Withdraw Fee: </label>
           <input id="withdraw_fee1" name="withdraw_fee1" type="text" value={this.state.withdraw_fee1} onChange={this.handleChange} /><br />
-          <label for="fiatcurrency1">Fiat Currency: </label>
+          <label htmlFor="fiatcurrency1">Fiat Currency: </label>
           <input id="fiatcurrency1" name="fiatcurrency1" type="text" value={this.state.fiatcurrency1} onChange={this.handleChange} /><br />
           <br />
-          <label for="exchange2">Exchange2: </label>
+          <label htmlFor="exchange2">Exchange2: </label>
           <input id="exchange2" name="exchange2" type="text" value={this.state.exchange2} onChange={this.handleChange} /><br />
-          <label for="commission2">Comission: </label>
+          <label htmlFor="commission2">Comission: </label>
           <input id="commission2" name="commission2" type="text" value={this.state.commission2} onChange={this.handleChange} /><br />
-          <label for="withdraw_fee2">Withdraw Fee: </label>
+          <label htmlFor="withdraw_fee2">Withdraw Fee: </label>
           <input id="withdraw_fee2" name="withdraw_fee2" type="text" value={this.state.withdraw_fee2} onChange={this.handleChange} /><br />
-          <label for="withdraw_fee2_p">Withdraw Fee (%): </label>
+          <label htmlFor="withdraw_fee2_p">Withdraw Fee (%): </label>
           <input id="withdraw_fee2_p" name="withdraw_fee2_p" type="text" value={this.state.withdraw_fee2_p} onChange={this.handleChange} /><br />
-          <label for="fiatcurrency2">Fiat Currency: </label>
+          <label htmlFor="fiatcurrency2">Fiat Currency: </label>
           <input id="fiatcurrency2" name="fiatcurrency2" type="text" value={this.state.fiatcurrency2} onChange={this.handleChange} /><br />
           <br/>
-          <label for="deposit">Deposit Value: </label>
+          <label htmlFor="deposit">Deposit Value: </label>
           <input id="deposit" name="deposit" type="text" value={this.state.deposit} onChange={this.handleChange} /><br />
-          <label for="deposit_currency">Deposit Currency: </label>
+          <label htmlFor="deposit_currency">Deposit Currency: </label>
           <input id="deposit_currency" name="deposit_currency" type="text" value={this.state.deposit_currency} onChange={this.handleChange} /><br />
-          <label for="deposit_fee">Deposit Fee: </label>
+          <label htmlFor="deposit_fee">Deposit Fee: </label>
           <input id="deposit_fee" name="deposit_fee" type="text" value={this.state.deposit_fee} onChange={this.handleChange} /><br />
-          <label for="deposit_fee_p">Deposit Fee (%): </label>
+          <label htmlFor="deposit_fee_p">Deposit Fee (%): </label>
           <input id="deposit_fee_p" name="deposit_fee_p" type="text" value={this.state.deposit_fee_p} onChange={this.handleChange} /><br />
-          <label for="criptocurrency">Criptocurrency: </label>
+          <label htmlFor="criptocurrency">Criptocurrency: </label>
           <input id="criptocurrency" name="criptocurrency" type="text" value={this.state.criptocurrency} onChange={this.handleChange} /><br />
           <br/>
           <input type='submit' />
