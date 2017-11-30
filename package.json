@@ -11,6 +11,8 @@
     "react-scripts": "1.0.14"
   },
   "scripts": {
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix && npm run lint:fixpack -s",
     "lint:fixpack": "fixpack",
     "start": "react-scripts start",
     "build": "react-scripts build",
