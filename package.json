@@ -10,6 +10,7 @@
     "request": "^2.83.0"
   },
   "devDependencies": {
+    "node-fetch": "^1.7.3",
     "react-scripts": "1.0.16"
   },
   "scripts": {
