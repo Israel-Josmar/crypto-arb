@@ -1,6 +1,7 @@
 import React from 'react'
 
 function ExchangeCard(props) {
+  const exchangeLogo = `${process.env.PUBLIC_URL}/imgLogos/${props.exchange.toLowerCase()}logo.png`
   return (
     <div className="card" style={props.style}>
       <div className="card-header">
@@ -8,7 +9,7 @@ function ExchangeCard(props) {
         <span className="float-right">{props.profitPercent}</span>
       </div>
       <div className="card-body">
-        <img className="card-img-top" src="http://www.xbt.money/wp-content/uploads/2017/05/bitstampnewlogo.png" alt="Exchange Logo" />
+        <img className="card-img-top" src={exchangeLogo} alt="Exchange Logo" />
       </div>
       <div className="card-footer text-muted">
         {props.criptocurrency}
@@ -55,15 +56,19 @@ class DashBoard extends React.Component {
     return (
       <div>
         <div className="container">
-          <div className="row">
+          <div className="row pb-2">
             <div className="col">
-              <label htmlFor="value">Value:</label>
-              <input name="value" type="text"/>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              <Button className="btn btn-primary btn-sm" value="Simulate" />
+              <form>
+                <div className="form-row">
+                  <div className="col-auto">
+                    <div className="form-group">
+                      <label htmlFor="value">Investment Value</label>
+                      <input type="number" className="form-control" id="value" placeholder="1000" />
+                    </div>
+                  </div>
+                </div>
+                <Button className="btn btn-primary btn-sm" value="Simulate" />
+              </form>
             </div>
           </div>
           <div className="row">
