@@ -74,13 +74,6 @@ class DashBoard extends React.Component {
   }
 
   render() {
-    const sortedCards = this.state.cards.sort(function (a, b) {
-      const nameA = a.profitPercent.toLowerCase()
-      const nameB = b.profitPercent.toLowerCase()
-      if (nameA > nameB) return -1
-      if (nameA < nameB) return 1
-      return 0 // default return value (no sorting)
-    })
     return (
       <div>
         <div className="container">
@@ -103,7 +96,7 @@ class DashBoard extends React.Component {
           </div>
           <div className="row">
             {
-              sortedCards.map((card, index) => (
+              this.state.cards.map((card, index) => (
                 <div key={index}  className="col">
                   <ExchangeCard exchange={card.exchange} criptocurrency={card.coin} profit={card.profit} profitPercent={card.profitPercent} />
                 </div>
