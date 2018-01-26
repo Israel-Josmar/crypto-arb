@@ -1,5 +1,23 @@
 import React from 'react'
 
+function InvestmentForm(props) {
+  return (
+    <form onSubmit={props.handleSubmit}>
+      <div className="form-row">
+        <div className="col-auto">
+          <div className="form-group">
+            <label htmlFor="value">Investment Value</label>
+            <input type="number" value={props.value} onChange={props.handleChange} className="form-control" id="value" name="value" placeholder="1000" />
+            <label htmlFor="cost">Deposit Cost</label>
+            <input type="number" value={props.cost} onChange={props.handleChange} className="form-control" id="cost" name="cost" placeholder="300" />
+          </div>
+        </div>
+      </div>
+      <Button className="btn btn-primary btn-sm" value="Simulate" />
+    </form>
+  )
+}
+
 function ExchangeCard(props) {
   const exchangeLogo = `${process.env.PUBLIC_URL}/imgLogos/${props.exchange.toLowerCase()}logo.png`
   return (
@@ -79,19 +97,7 @@ class DashBoard extends React.Component {
         <div className="container">
           <div className="row pb-2">
             <div className="col">
-              <form onSubmit={this.handleSubmit}>
-                <div className="form-row">
-                  <div className="col-auto">
-                    <div className="form-group">
-                      <label htmlFor="value">Investment Value</label>
-                      <input type="number" value={this.state.value} onChange={this.handleChange} className="form-control" id="value" name="value" placeholder="1000" />
-                      <label htmlFor="cost">Deposit Cost</label>
-                      <input type="number" value={this.state.cost} onChange={this.handleChange} className="form-control" id="cost" name="cost" placeholder="300" />
-                    </div>
-                  </div>
-                </div>
-                <Button className="btn btn-primary btn-sm" value="Simulate" />
-              </form>
+              <InvestmentForm value={this.state.value} cost={this.state.cost} handleSubmit={this.handleSubmit} handleChange={this.handleChange}/>
             </div>
           </div>
           <div className="row">
