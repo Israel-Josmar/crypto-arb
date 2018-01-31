@@ -50,23 +50,6 @@ class DashBoard extends React.Component {
       cost: '',
       cards: [],
     }
-    this.cards =  [
-      {
-        exchange: 'Exchange2', coin: 'Litecoin', profit: '400.00', profitPercent: '4%',
-      },
-      {
-        exchange: 'Exchange1', coin: 'Litecoin', profit: '500.00', profitPercent: '5%',
-      },
-      {
-        exchange: 'Exchange3', coin: 'Litecoin', profit: '300.00', profitPercent: '3%',
-      },
-      {
-        exchange: 'Exchange4', coin: 'Litecoin', profit: '200.00', profitPercent: '2%',
-      },
-      {
-        exchange: 'Exchange5', coin: 'Litecoin', profit: '100.00', profitPercent: '1%',
-      },
-    ]
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -82,13 +65,26 @@ class DashBoard extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    const data = this.fetchCardsData(this.state.value, this.state.cost)
-    this.setState({ cards: data })
+    this.fetchCardsData(this.state.value, this.state.cost)
+    // this.setState({ cards: data })
   }
 
   fetchCardsData(value, cost) {
-    return this.cards
-    // return fetchAPI(value, cost)
+    const investedValue = value - cost
+    fetch('/dashboard')
+      .then(result => {
+        result.json().then(result => {
+          const data = result.map((card) => {
+            const newProfit = card.profitPercent * investedValue
+            return ({
+              ...card,
+              profit: newProfit - value,
+              profitPercent: (newProfit / value - 1) * 100,
+            })
+          })
+          this.setState({ cards: data })
+        })
+      })
   }
 
   render() {
