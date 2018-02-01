@@ -66,7 +66,6 @@ class DashBoard extends React.Component {
   handleSubmit(event) {
     event.preventDefault()
     this.fetchCardsData(this.state.value, this.state.cost)
-    // this.setState({ cards: data })
   }
 
   fetchCardsData(value, cost) {
