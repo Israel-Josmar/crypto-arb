@@ -21,13 +21,13 @@ function InvestmentForm(props) {
 function ExchangeCard(props) {
   const exchangeLogo = `${process.env.PUBLIC_URL}/imgLogos/${props.exchange.toLowerCase()}logo.png`
   return (
-    <div className="card" style={props.style}>
+    <div className="card h-100" style={props.style}>
       <div className="card-header">
         <span className="float-left">{props.profit}</span>
         <span className="float-right">{props.profitPercent}</span>
       </div>
       <div className="card-body">
-        <img className="card-img-top" src={exchangeLogo} alt="Exchange Logo" />
+        <img className="img-fluid h-100" src={exchangeLogo} alt="Exchange Logo" />
       </div>
       <div className="card-footer text-muted">
         {props.criptocurrency}
@@ -99,7 +99,7 @@ class DashBoard extends React.Component {
             {
               this.state.cards.map((card, index) => (
                 <div key={index}  className="col">
-                  <ExchangeCard exchange={card.exchange} criptocurrency={card.coin} profit={card.profit} profitPercent={card.profitPercent} />
+                  <ExchangeCard exchange={card.exchange} criptocurrency={card.coin} profit={card.profit.toFixed(2)} profitPercent={`${card.profitPercent.toFixed(2)}%`} />
                 </div>
               ))
             }
