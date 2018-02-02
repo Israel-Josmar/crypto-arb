@@ -18,13 +18,29 @@ function InvestmentForm(props) {
   )
 }
 
+const NumberDisplay = ({
+  value,
+  showAspercent,
+  precision,
+}) => {
+  const className = (value >= 0) ? 'text-success' : 'text-danger'
+  const number = showAspercent ? value * 100 : value
+  const displayedNumber = precision ? number.toFixed(precision) : number.toFixed(2)
+
+  return (
+    <div className={className}>
+      {showAspercent ? `${displayedNumber}%` : displayedNumber}
+    </div>
+  )
+}
+
 function ExchangeCard(props) {
   const exchangeLogo = `${process.env.PUBLIC_URL}/imgLogos/${props.exchange.toLowerCase()}logo.png`
   return (
     <div className="card h-100" style={props.style}>
       <div className="card-header">
-        <span className="float-left">{props.profit}</span>
-        <span className="float-right">{props.profitPercent}</span>
+        <span className="float-left"><NumberDisplay value={props.profit} /></span>
+        <span className="float-right"><NumberDisplay value={props.profitPercent} showAspercent="true"/></span>
       </div>
       <div className="card-body">
         <img className="img-fluid h-100" src={exchangeLogo} alt="Exchange Logo" />
@@ -78,7 +94,7 @@ class DashBoard extends React.Component {
             return ({
               ...card,
               profit: newProfit - value,
-              profitPercent: (newProfit / value - 1) * 100,
+              profitPercent: (newProfit / value - 1),
             })
           })
           this.setState({ cards: data })
@@ -99,7 +115,7 @@ class DashBoard extends React.Component {
             {
               this.state.cards.map((card, index) => (
                 <div key={index}  className="col">
-                  <ExchangeCard exchange={card.exchange} criptocurrency={card.coin} profit={card.profit.toFixed(2)} profitPercent={`${card.profitPercent.toFixed(2)}%`} />
+                  <ExchangeCard exchange={card.exchange} criptocurrency={card.coin} profit={card.profit} profitPercent={card.profitPercent} />
                 </div>
               ))
             }
