@@ -1,22 +1,22 @@
 {
   "name": "crypto-arb",
   "private": true,
+  "scripts": {
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix && npm run lint:fixpack -s",
+    "lint:fixpack": "fixpack",
+    "start": "react-scripts start",
+    "test": "react-scripts test --env=jsdom"
+  },
   "dependencies": {
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   },
   "devDependencies": {
     "fixpack": "^2.3.1",
     "node-fetch": "^1.7.3",
     "react-scripts": "1.1.0"
-  },
-  "scripts": {
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix && npm run lint:fixpack -s",
-    "lint:fixpack": "fixpack",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
   }
 }
