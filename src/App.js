@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import './App.css'
 import DashBoard from './view/dashboard'
 
@@ -8,8 +8,8 @@ class App extends Component {
       <div>
         <DashBoard />
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
