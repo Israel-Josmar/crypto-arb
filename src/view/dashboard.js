@@ -42,8 +42,8 @@ function ExchangeCard(props) {
         <span className="float-left"><NumberDisplay value={props.profit} /></span>
         <span className="float-right"><NumberDisplay value={props.profitPercent} showAspercent="true"/></span>
       </div>
-      <div className="card-body">
-        <img className="img-fluid h-100" src={exchangeLogo} alt="Exchange Logo" />
+      <div className="card-body d-flex align-items-center">
+        <img className="img-fluid" src={exchangeLogo} alt="Exchange Logo" />
       </div>
       <div className="card-footer text-muted">
         {props.criptocurrency}
@@ -111,10 +111,10 @@ class DashBoard extends React.Component {
               <InvestmentForm value={this.state.value} cost={this.state.cost} handleSubmit={this.handleSubmit} handleChange={this.handleChange}/>
             </div>
           </div>
-          <div className="row">
+          <div className="d-flex flex-wrap">
             {
               this.state.cards.map((card, index) => (
-                <div key={index}  className="col">
+                <div key={index}  className="w-25 p-1">
                   <ExchangeCard exchange={card.exchange} criptocurrency={card.coin} profit={card.profit} profitPercent={card.profitPercent} />
                 </div>
               ))
