@@ -1,15 +1,20 @@
 import React from 'react'
 
-function InvestmentForm(props) {
+const InvestmentForm = ({
+  handleSubmit,
+  value,
+  handleChange,
+  cost,
+}) => {
   return (
-    <form onSubmit={props.handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <div className="form-row">
         <div className="col-auto">
           <div className="form-group">
             <label htmlFor="value">Investment Value</label>
-            <input type="number" value={props.value} onChange={props.handleChange} className="form-control" id="value" name="value" placeholder="1000" />
+            <input type="number" value={value} onChange={handleChange} className="form-control" id="value" name="value" placeholder="1000" />
             <label htmlFor="cost">Deposit Cost</label>
-            <input type="number" value={props.cost} onChange={props.handleChange} className="form-control" id="cost" name="cost" placeholder="300" />
+            <input type="number" value={cost} onChange={handleChange} className="form-control" id="cost" name="cost" placeholder="300" />
           </div>
         </div>
       </div>
@@ -34,30 +39,41 @@ const NumberDisplay = ({
   )
 }
 
-function ExchangeCard(props) {
-  const exchangeLogo = `${process.env.PUBLIC_URL}/imgLogos/${props.exchange.toLowerCase()}logo.png`
+const ExchangeCard = ({
+  exchange,
+  profit,
+  profitPercent,
+  criptocurrency,
+}) => {
+  const exchangeLogo = `${process.env.PUBLIC_URL}/imgLogos/${exchange.toLowerCase()}logo.png`
   return (
-    <div className="card h-100" style={props.style}>
+    <div className="card h-100">
       <div className="card-header">
-        <span className="float-left"><NumberDisplay value={props.profit} /></span>
-        <span className="float-right"><NumberDisplay value={props.profitPercent} showAspercent="true"/></span>
+        <span className="float-left"><NumberDisplay value={profit} /></span>
+        <span className="float-right"><NumberDisplay value={profitPercent} showAspercent="true"/></span>
       </div>
       <div className="card-body d-flex align-items-center">
         <img className="img-fluid" src={exchangeLogo} alt="Exchange Logo" />
       </div>
       <div className="card-footer text-muted">
-        {props.criptocurrency}
+        {criptocurrency}
       </div>
     </div>
   )
 }
-function Button(props) {
+
+const  Button = ({
+  className,
+  onClick,
+  value,
+}) => {
   return (
-    <button className={props.className} onClick={props.onClick}>
-      {props.value}
+    <button className={className} onClick={onClick}>
+      {value}
     </button>
   )
 }
+
 class DashBoard extends React.Component {
   constructor() {
     super()
