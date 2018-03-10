@@ -1,19 +1,56 @@
 import React from 'react'
 
 class InvestmentForm extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      hidden: true,
+    }
+    this.handleClick = this.handleClick.bind(this)
+  }
+  handleClick(e) {
+    const hidden = (e.target.id === 'customLabel') ? !this.state.hidden : true
+    this.setState({
+      hidden: hidden,
+    })
+  }
   render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
         <div className="form-row">
           <div className="col-auto">
-            <div className="form-group">
-              <label htmlFor="value">Investment Value</label>
-              <input type="number" value={this.props.value} onChange={this.props.handleChange} className="form-control" id="value" name="value" placeholder="1000" />
-              <label htmlFor="cost">Deposit Cost</label>
-              <input type="number" value={this.props.cost} onChange={this.props.handleChange} className="form-control" id="cost" name="cost" placeholder="300" />
+            <div className="btn-group btn-group-toggle" data-toggle="buttons">
+              <label className="btn btn-secondary btn-sm border active" onClick={this.handleClick}>
+                <input type="radio" name="options" id="1000" /> 1000
+              </label>
+              <label className="btn btn-secondary btn-sm border" onClick={this.handleClick}>
+                <input type="radio" name="options" id="5000"  /> 5000
+              </label>
+              <label className="btn btn-secondary btn-sm border" onClick={this.handleClick}>
+                <input type="radio" name="options" id="10000" /> 10000
+              </label>
+              <label id="customLabel" className="btn btn-secondary btn-sm border" onClick={this.handleClick}>
+                <input type="radio" name="options" id="custom" />Custom Value
+              </label>
             </div>
+            {this.state.hidden ? (
+              ''
+            ) : (
+              <div className="form-row">
+
+                <div className="col-auto">
+                  <div className="form-group">
+                    <label htmlFor="value">Investment Value</label>
+                    <input type="number" value={this.props.value} onChange={this.props.handleChange} className="form-control" id="value" name="value" placeholder="1000" />
+                    <label htmlFor="cost">Deposit Cost</label>
+                    <input type="number" value={this.props.cost} onChange={this.props.handleChange} className="form-control" id="cost" name="cost" placeholder="300" />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
+
         <Button className="btn btn-primary btn-sm" value="Simulate" />
       </form>
     )
