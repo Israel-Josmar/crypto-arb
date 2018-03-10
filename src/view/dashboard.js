@@ -1,26 +1,23 @@
 import React from 'react'
 
-const InvestmentForm = ({
-  handleSubmit,
-  value,
-  handleChange,
-  cost,
-}) => {
-  return (
-    <form onSubmit={handleSubmit}>
-      <div className="form-row">
-        <div className="col-auto">
-          <div className="form-group">
-            <label htmlFor="value">Investment Value</label>
-            <input type="number" value={value} onChange={handleChange} className="form-control" id="value" name="value" placeholder="1000" />
-            <label htmlFor="cost">Deposit Cost</label>
-            <input type="number" value={cost} onChange={handleChange} className="form-control" id="cost" name="cost" placeholder="300" />
+class InvestmentForm extends React.Component {
+  render() {
+    return (
+      <form onSubmit={this.props.handleSubmit}>
+        <div className="form-row">
+          <div className="col-auto">
+            <div className="form-group">
+              <label htmlFor="value">Investment Value</label>
+              <input type="number" value={this.props.value} onChange={this.props.handleChange} className="form-control" id="value" name="value" placeholder="1000" />
+              <label htmlFor="cost">Deposit Cost</label>
+              <input type="number" value={this.props.cost} onChange={this.props.handleChange} className="form-control" id="cost" name="cost" placeholder="300" />
+            </div>
           </div>
         </div>
-      </div>
-      <Button className="btn btn-primary btn-sm" value="Simulate" />
-    </form>
-  )
+        <Button className="btn btn-primary btn-sm" value="Simulate" />
+      </form>
+    )
+  }
 }
 
 const NumberDisplay = ({
