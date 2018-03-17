@@ -5,32 +5,52 @@ class InvestmentForm extends React.Component {
     super(props)
     this.state = {
       hidden: true,
+      value: '',
+      cost: '',
     }
     this.handleClick = this.handleClick.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
   handleClick(e) {
     const hidden = (e.target.id === 'customLabel') ? !this.state.hidden : true
     this.setState({
       hidden: hidden,
+      value: e.target.id,
     })
   }
+
+  handleChange(event) {
+    const target = event.target
+    const name =  target.name
+
+    this.setState({
+      [name]: target.value,
+    })
+  }
+
+  handleSubmit(event) {
+    event.preventDefault()
+    this.props.handleSubmit(this.state.value, this.state.cost)
+  }
+
   render() {
     return (
-      <form onSubmit={this.props.handleSubmit}>
+      <form onSubmit={this.handleSubmit}>
         <div className="form-row">
           <div className="col-auto">
             <div className="btn-group btn-group-toggle" data-toggle="buttons">
-              <label className="btn btn-secondary btn-sm border active" onClick={this.handleClick}>
-                <input type="radio" name="options" id="1000" /> 1000
+              <label className="btn btn-secondary btn-sm border active" id="1000" onClick={this.handleClick} >
+                <input type="radio" name="options" /> 1000
               </label>
-              <label className="btn btn-secondary btn-sm border" onClick={this.handleClick}>
-                <input type="radio" name="options" id="5000"  /> 5000
+              <label className="btn btn-secondary btn-sm border" id="5000" onClick={this.handleClick}>
+                <input type="radio" name="options" /> 5000
               </label>
-              <label className="btn btn-secondary btn-sm border" onClick={this.handleClick}>
-                <input type="radio" name="options" id="10000" /> 10000
+              <label className="btn btn-secondary btn-sm border" id="10000"  onClick={this.handleClick}>
+                <input type="radio" name="options" /> 10000
               </label>
               <label id="customLabel" className="btn btn-secondary btn-sm border" onClick={this.handleClick}>
-                <input type="radio" name="options" id="custom" />Custom Value
+                <input type="radio" name="options" />Custom Value
               </label>
             </div>
             {this.state.hidden ? (
@@ -41,9 +61,9 @@ class InvestmentForm extends React.Component {
                 <div className="col-auto">
                   <div className="form-group">
                     <label htmlFor="value">Investment Value</label>
-                    <input type="number" value={this.props.value} onChange={this.props.handleChange} className="form-control" id="value" name="value" placeholder="1000" />
+                    <input type="number" value={this.state.value} onChange={this.handleChange} className="form-control" id="value" name="value" placeholder="1000" />
                     <label htmlFor="cost">Deposit Cost</label>
-                    <input type="number" value={this.props.cost} onChange={this.props.handleChange} className="form-control" id="cost" name="cost" placeholder="300" />
+                    <input type="number" value={this.state.cost} onChange={this.handleChange} className="form-control" id="cost" name="cost" placeholder="300" />
                   </div>
                 </div>
               </div>
@@ -116,22 +136,11 @@ class DashBoard extends React.Component {
       cost: '',
       cards: [],
     }
-    this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleChange(event) {
-    const target = event.target
-    const name =  target.name
-
-    this.setState({
-      [name]: target.value,
-    })
-  }
-
-  handleSubmit(event) {
-    event.preventDefault()
-    this.fetchCardsData(this.state.value, this.state.cost)
+  handleSubmit(value, cost) {
+    this.fetchCardsData(value, cost)
   }
 
   fetchCardsData(value, cost) {
@@ -158,7 +167,7 @@ class DashBoard extends React.Component {
         <div className="container">
           <div className="row pb-2">
             <div className="col">
-              <InvestmentForm value={this.state.value} cost={this.state.cost} handleSubmit={this.handleSubmit} handleChange={this.handleChange}/>
+              <InvestmentForm value={this.state.value} cost={this.state.cost} handleSubmit={this.handleSubmit} />
             </div>
           </div>
           <div className="d-flex flex-wrap">
