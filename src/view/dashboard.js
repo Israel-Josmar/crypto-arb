@@ -149,11 +149,12 @@ class DashBoard extends React.Component {
       .then(result => {
         result.json().then(result => {
           const data = result.map((card) => {
-            const newProfit = card.profitPercent * investedValue
+            const newProfitPercent = card.profitPercent / 100
+            const newProfit = (newProfitPercent + 1) * investedValue
             return ({
               ...card,
               profit: newProfit - value,
-              profitPercent: (newProfit / value - 1),
+              profitPercent: newProfitPercent,
             })
           })
           this.setState({ cards: data })
