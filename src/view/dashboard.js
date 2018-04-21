@@ -5,8 +5,7 @@ class InvestmentForm extends React.Component {
     super(props)
     this.state = {
       hidden: true,
-      value: '',
-      cost: '',
+      value: 1000,
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -16,7 +15,7 @@ class InvestmentForm extends React.Component {
     const hidden = (e.target.id === 'customLabel') ? !this.state.hidden : true
     this.setState({
       hidden: hidden,
-      value: e.target.id,
+      value: (hidden) ? e.target.id : 1000,
     })
   }
 
