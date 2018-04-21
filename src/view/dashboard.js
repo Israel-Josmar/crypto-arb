@@ -31,7 +31,7 @@ class InvestmentForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    this.props.handleSubmit(this.state.value, this.state.cost)
+    this.props.handleSubmit(this.state.value)
   }
 
   render() {
@@ -62,8 +62,6 @@ class InvestmentForm extends React.Component {
                   <div className="form-group">
                     <label htmlFor="value">Investment Value</label>
                     <input type="number" value={this.state.value} onChange={this.handleChange} className="form-control" id="value" name="value" placeholder="1000" />
-                    <label htmlFor="cost">Deposit Cost</label>
-                    <input type="number" value={this.state.cost} onChange={this.handleChange} className="form-control" id="cost" name="cost" placeholder="300" />
                   </div>
                 </div>
               </div>
@@ -139,22 +137,21 @@ class DashBoard extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleSubmit(value, cost) {
-    this.fetchCardsData(value, cost)
+  handleSubmit(value) {
+    this.fetchCardsData(value)
   }
 
-  fetchCardsData(value, cost) {
-    const investedValue = value - cost
+  fetchCardsData(value) {
     fetch('/dashboard')
       .then(result => {
         result.json().then(result => {
           const data = result.map((card) => {
             const profitPercent = card.profitPercent / 100
-            const profit = profitPercent * investedValue
+            const profit = profitPercent * value
             return ({
               ...card,
               profit: profit,
-              profitPercent: profitPercent,
+              profitPercent: profit / value,
             })
           })
           this.setState({ cards: data })
