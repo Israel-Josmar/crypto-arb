@@ -98,13 +98,17 @@ const ExchangeCard = ({
   criptocurrency,
 }) => {
   const exchangeLogo = `${process.env.PUBLIC_URL}/imgLogos/${exchange.toLowerCase()}logo.png`
+  const style = {
+    'max-width': '200px',
+    height: '100px',
+  }
   return (
     <div className="card h-100">
       <div className="card-header">
         <span className="float-left"><NumberDisplay value={profit} /></span>
         <span className="float-right"><NumberDisplay value={profitPercent} showAspercent="true"/></span>
       </div>
-      <div className="card-body d-flex align-items-center">
+      <div className="card-body d-flex align-items-center" style={style}>
         <img className="img-fluid" src={exchangeLogo} alt="Exchange Logo" />
       </div>
       <div className="card-footer text-muted">
@@ -171,7 +175,7 @@ class DashBoard extends React.Component {
           <div className="d-flex flex-wrap">
             {
               this.state.cards.map((card, index) => (
-                <div key={index}  className="w-25 p-1">
+                <div key={index} className="p-1">
                   <ExchangeCard exchange={card.exchange} criptocurrency={card.coin} profit={card.profit} profitPercent={card.profitPercent} />
                 </div>
               ))
