@@ -16,6 +16,8 @@
     "react-dom": "^16.2.0"
   },
   "devDependencies": {
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "fixpack": "^2.3.1",
     "node-fetch": "^1.7.3",
     "react-scripts": "1.1.0"
