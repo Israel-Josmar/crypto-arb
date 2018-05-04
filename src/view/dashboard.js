@@ -5,8 +5,7 @@ class InvestmentForm extends React.Component {
     super(props)
     this.state = {
       hidden: true,
-      value: '',
-      cost: '',
+      value: 1000,
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -16,7 +15,7 @@ class InvestmentForm extends React.Component {
     const hidden = (e.target.id === 'customLabel') ? !this.state.hidden : true
     this.setState({
       hidden: hidden,
-      value: e.target.id,
+      value: (hidden) ? e.target.id : 1000,
     })
   }
 
@@ -31,12 +30,15 @@ class InvestmentForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    this.props.handleSubmit(this.state.value, this.state.cost)
+    this.props.handleSubmit(this.state.value)
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
+        <div class="alert alert-info" role="alert">
+          (Investment values after bank fees)
+        </div>
         <div className="form-row">
           <div className="col-auto">
             <div className="btn-group btn-group-toggle" data-toggle="buttons">
@@ -52,6 +54,7 @@ class InvestmentForm extends React.Component {
               <label id="customLabel" className="btn btn-secondary btn-sm border" onClick={this.handleClick}>
                 <input type="radio" name="options" />Custom Value
               </label>
+
             </div>
             {this.state.hidden ? (
               ''
@@ -62,8 +65,6 @@ class InvestmentForm extends React.Component {
                   <div className="form-group">
                     <label htmlFor="value">Investment Value</label>
                     <input type="number" value={this.state.value} onChange={this.handleChange} className="form-control" id="value" name="value" placeholder="1000" />
-                    <label htmlFor="cost">Deposit Cost</label>
-                    <input type="number" value={this.state.cost} onChange={this.handleChange} className="form-control" id="cost" name="cost" placeholder="300" />
                   </div>
                 </div>
               </div>
@@ -100,13 +101,17 @@ const ExchangeCard = ({
   criptocurrency,
 }) => {
   const exchangeLogo = `${process.env.PUBLIC_URL}/imgLogos/${exchange.toLowerCase()}logo.png`
+  const style = {
+    'max-width': '200px',
+    height: '100px',
+  }
   return (
     <div className="card h-100">
       <div className="card-header">
         <span className="float-left"><NumberDisplay value={profit} /></span>
         <span className="float-right"><NumberDisplay value={profitPercent} showAspercent="true"/></span>
       </div>
-      <div className="card-body d-flex align-items-center">
+      <div className="card-body d-flex align-items-center" style={style}>
         <img className="img-fluid" src={exchangeLogo} alt="Exchange Logo" />
       </div>
       <div className="card-footer text-muted">
@@ -139,22 +144,21 @@ class DashBoard extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleSubmit(value, cost) {
-    this.fetchCardsData(value, cost)
+  handleSubmit(value) {
+    this.fetchCardsData(value)
   }
 
-  fetchCardsData(value, cost) {
-    const investedValue = value - cost
+  fetchCardsData(value) {
     fetch('/dashboard')
       .then(result => {
         result.json().then(result => {
           const data = result.map((card) => {
             const profitPercent = card.profitPercent / 100
-            const profit = profitPercent * investedValue
+            const profit = profitPercent * value
             return ({
               ...card,
               profit: profit,
-              profitPercent: profitPercent,
+              profitPercent: profit / value,
             })
           })
           this.setState({ cards: data })
@@ -174,7 +178,7 @@ class DashBoard extends React.Component {
           <div className="d-flex flex-wrap">
             {
               this.state.cards.map((card, index) => (
-                <div key={index}  className="w-25 p-1">
+                <div key={index} className="p-1">
                   <ExchangeCard exchange={card.exchange} criptocurrency={card.coin} profit={card.profit} profitPercent={card.profitPercent} />
                 </div>
               ))
