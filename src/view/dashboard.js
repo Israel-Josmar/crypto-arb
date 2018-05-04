@@ -36,6 +36,9 @@ class InvestmentForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
+        <div class="alert alert-info" role="alert">
+          (Investment values after bank fees)
+        </div>
         <div className="form-row">
           <div className="col-auto">
             <div className="btn-group btn-group-toggle" data-toggle="buttons">
@@ -51,6 +54,7 @@ class InvestmentForm extends React.Component {
               <label id="customLabel" className="btn btn-secondary btn-sm border" onClick={this.handleClick}>
                 <input type="radio" name="options" />Custom Value
               </label>
+
             </div>
             {this.state.hidden ? (
               ''
