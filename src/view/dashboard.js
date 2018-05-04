@@ -37,7 +37,7 @@ class InvestmentForm extends React.Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <div class="alert alert-info" role="alert">
-          (Investment values after bank fees)
+          Investment values after bank fees
         </div>
         <div className="form-row">
           <div className="col-auto">
