@@ -95,27 +95,29 @@ const NumberDisplay = ({
 }
 
 const ExchangeCard = ({
-  exchange,
+  exchangeFrom,
+  exchangeTo,
   profit,
   profitPercent,
   criptocurrency,
 }) => {
-  const exchangeLogo = `${process.env.PUBLIC_URL}/imgLogos/${exchange.toLowerCase()}logo.png`
   const style = {
-    'max-width': '200px',
+    width: '200px',
     height: '100px',
   }
   return (
     <div className="card h-100">
-      <div className="card-header">
-        <span className="float-left"><NumberDisplay value={profit} /></span>
-        <span className="float-right"><NumberDisplay value={profitPercent} showAspercent="true"/></span>
+      <div className="card-header d-flex flex-column">
+        <span className="align-self-center">{criptocurrency}</span>
       </div>
       <div className="card-body d-flex align-items-center" style={style}>
-        <img className="img-fluid" src={exchangeLogo} alt="Exchange Logo" />
+        <div className="d-flex mr-auto"><span style={{ color: '#28a745' }}>R$&nbsp;</span><NumberDisplay value={profit} /></div>
+        <div className="ml-auto"><NumberDisplay value={profitPercent} showAspercent="true"/></div>
       </div>
-      <div className="card-footer text-muted">
-        {criptocurrency}
+      <div className="card-footer text-muted d-flex">
+        <span className="">{exchangeFrom}</span>
+        <span className="mx-auto">{'=>'}</span>
+        <span className="">{exchangeTo}</span>
       </div>
     </div>
   )
@@ -153,7 +155,7 @@ class DashBoard extends React.Component {
       .then(result => {
         result.json().then(result => {
           const data = result.map((card) => {
-            const profitPercent = card.profitPercent / 100
+            const profitPercent = card.profitPercent - 1
             const profit = profitPercent * value
             return ({
               ...card,
@@ -179,7 +181,7 @@ class DashBoard extends React.Component {
             {
               this.state.cards.map((card, index) => (
                 <div key={index} className="p-1">
-                  <ExchangeCard exchange={card.exchange} criptocurrency={card.coin} profit={card.profit} profitPercent={card.profitPercent} />
+                  <ExchangeCard exchangeFrom={card.sourceName} exchangeTo={card.destName}  criptocurrency={card.coin} profit={card.profit} profitPercent={card.profitPercent} />
                 </div>
               ))
             }
