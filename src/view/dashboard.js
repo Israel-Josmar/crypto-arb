@@ -151,7 +151,7 @@ class DashBoard extends React.Component {
   }
 
   fetchCardsData(value) {
-    fetch('/dashboard')
+    fetch(`/dashboard?amount=${value}&currency=brl`)
       .then(result => {
         result.json().then(result => {
           const data = result.map((card) => {
