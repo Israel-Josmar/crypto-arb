@@ -150,22 +150,19 @@ class DashBoard extends React.Component {
     this.fetchCardsData(value)
   }
 
-  fetchCardsData(value) {
-    fetch(`/dashboard?amount=${value}&currency=brl`)
-      .then(result => {
-        result.json().then(result => {
-          const data = result.map((card) => {
-            const profitPercent = card.profitPercent - 1
-            const profit = profitPercent * value
-            return ({
-              ...card,
-              profit: profit,
-              profitPercent: profit / value,
-            })
-          })
-          this.setState({ cards: data })
-        })
+  async fetchCardsData(value) {
+    const response = await fetch(`/dashboard?amount=${value}&currency=brl`)
+    const result = await response.json()
+    const data = result.map((card) => {
+      const profitPercent = card.profitPercent - 1
+      const profit = profitPercent * value
+      return ({
+        ...card,
+        profit: profit,
+        profitPercent: profit / value,
       })
+    })
+    this.setState({ cards: data })
   }
 
   render() {
