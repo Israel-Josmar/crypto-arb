@@ -1,6 +1,5 @@
 import React from 'react'
-import { CryptoIcon } from './crypto-icon'
-import * as Cryptos from './cryptos'
+import { Cryptocurrency } from './crypto-currency'
 
 class InvestmentForm extends React.Component {
   constructor(props) {
@@ -110,7 +109,7 @@ const ExchangeCard = ({
   return (
     <div className="card h-100">
       <div className="card-header d-flex flex-column">
-        <span className="align-self-center"><CryptoIcon id={criptocurrency} /><span className="ml-1">{Cryptos.names[criptocurrency]}</span></span>
+        <span className="align-self-center"><Cryptocurrency id={criptocurrency}/></span>
       </div>
       <div className="card-body d-flex align-items-center" style={style}>
         <div className="d-flex mr-auto"><span style={{ color: '#28a745' }}>R$&nbsp;</span><NumberDisplay value={profit} /></div>
