@@ -17,3 +17,5 @@ export const names = {
   bch: 'BitcoinCash',
   zec: 'Zcash',
 }
+
+export const getCryptoLogo = (id) => logos[id]
