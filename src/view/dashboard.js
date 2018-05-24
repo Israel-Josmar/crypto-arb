@@ -103,15 +103,15 @@ const ExchangeCard = ({
   criptocurrency,
 }) => {
   const style = {
-    width: '200px',
-    height: '100px',
+    width: '240px',
+    height: '208px',
   }
   return (
-    <div className="card h-100">
+    <div className="card" style={style}>
       <div className="card-header d-flex flex-column">
         <span className="align-self-center"><Cryptocurrency id={criptocurrency}/></span>
       </div>
-      <div className="card-body d-flex align-items-center" style={style}>
+      <div className="card-body d-flex align-items-center" >
         <div className="d-flex mr-auto"><span style={{ color: '#28a745' }}>R$&nbsp;</span><NumberDisplay value={profit} /></div>
         <div className="ml-auto"><NumberDisplay value={profitPercent} showAspercent="true"/></div>
       </div>
