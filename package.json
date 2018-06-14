@@ -9,6 +9,7 @@
     "lint:fix": "eslint src --fix && npm run lint:fixpack -s",
     "lint:fixpack": "fixpack",
     "start": "react-scripts start",
+    "storybook": "start-storybook -c ./config/storybook -p 9009 -s public",
     "test": "react-scripts test --env=jsdom"
   },
   "dependencies": {
@@ -16,6 +17,10 @@
     "react-dom": "^16.2.0"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^3.4.7",
+    "@storybook/addons": "^3.4.7",
+    "@storybook/react": "^3.4.7",
+    "babel-core": "^6.26.3",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "fixpack": "^2.3.1",
