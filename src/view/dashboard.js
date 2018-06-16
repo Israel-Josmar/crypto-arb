@@ -1,5 +1,6 @@
 import React from 'react'
 import { Cryptocurrency } from './crypto-currency'
+import { Button } from 'semantic-ui-react'
 
 class InvestmentForm extends React.Component {
   constructor(props) {
@@ -12,11 +13,11 @@ class InvestmentForm extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-  handleClick(e) {
-    const hidden = (e.target.id === 'customLabel') ? !this.state.hidden : true
+  handleClick(value) {
+    const hidden = (value === 0) ? !this.state.hidden : true
     this.setState({
       hidden: hidden,
-      value: (hidden) ? e.target.id : 1000,
+      value: (hidden) ? value : 1000,
     })
   }
 
@@ -42,21 +43,12 @@ class InvestmentForm extends React.Component {
         </div>
         <div className="form-row">
           <div className="col-auto">
-            <div className="btn-group btn-group-toggle" data-toggle="buttons">
-              <label className="btn btn-secondary btn-sm border active" id="1000" onClick={this.handleClick} >
-                <input type="radio" name="options" /> 1000
-              </label>
-              <label className="btn btn-secondary btn-sm border" id="5000" onClick={this.handleClick}>
-                <input type="radio" name="options" /> 5000
-              </label>
-              <label className="btn btn-secondary btn-sm border" id="10000"  onClick={this.handleClick}>
-                <input type="radio" name="options" /> 10000
-              </label>
-              <label id="customLabel" className="btn btn-secondary btn-sm border" onClick={this.handleClick}>
-                <input type="radio" name="options" />Custom Value
-              </label>
-
-            </div>
+            <Button.Group>
+              <Button onClick={() => this.handleClick(1000)}>1000</Button>
+              <Button onClick={() => this.handleClick(5000)}>5000</Button>
+              <Button onClick={() => this.handleClick(10000)}>10000</Button>
+              <Button type="button"  onClick={() => this.handleClick(0)}>Custom Value</Button>
+            </Button.Group>
             {this.state.hidden ? (
               ''
             ) : (
@@ -67,13 +59,12 @@ class InvestmentForm extends React.Component {
                     <label htmlFor="value">Investment Value</label>
                     <input type="number" value={this.state.value} onChange={this.handleChange} className="form-control" id="value" name="value" placeholder="1000" />
                   </div>
+                  <Button>Simulate</Button>
                 </div>
               </div>
             )}
           </div>
         </div>
-
-        <Button className="btn btn-primary btn-sm" value="Simulate" />
       </form>
     )
   }
@@ -121,18 +112,6 @@ const ExchangeCard = ({
         <span className="">{exchangeTo}</span>
       </div>
     </div>
-  )
-}
-
-const  Button = ({
-  className,
-  onClick,
-  value,
-}) => {
-  return (
-    <button className={className} onClick={onClick}>
-      {value}
-    </button>
   )
 }
 
