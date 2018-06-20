@@ -1,6 +1,6 @@
 import React from 'react'
 import { Cryptocurrency } from './crypto-currency'
-import { Button, Form } from 'semantic-ui-react'
+import { Button, Form, Message } from 'semantic-ui-react'
 
 class InvestmentForm extends React.Component {
   constructor(props) {
@@ -38,9 +38,9 @@ class InvestmentForm extends React.Component {
   render() {
     return (
       <Form onSubmit={this.handleSubmit}>
-        <div class="alert alert-info" role="alert">
+        <Message color="blue">
           Investment values after bank fees
-        </div>
+        </Message>
         <Button.Group>
           <Button onClick={() => this.handleClick(1000)}>1000</Button>
           <Button onClick={() => this.handleClick(5000)}>5000</Button>
