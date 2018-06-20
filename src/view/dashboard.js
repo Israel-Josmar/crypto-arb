@@ -1,6 +1,6 @@
 import React from 'react'
 import { Cryptocurrency } from './crypto-currency'
-import { Button } from 'semantic-ui-react'
+import { Button, Form } from 'semantic-ui-react'
 
 class InvestmentForm extends React.Component {
   constructor(props) {
@@ -37,35 +37,25 @@ class InvestmentForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit}>
         <div class="alert alert-info" role="alert">
           Investment values after bank fees
         </div>
-        <div className="form-row">
-          <div className="col-auto">
-            <Button.Group>
-              <Button onClick={() => this.handleClick(1000)}>1000</Button>
-              <Button onClick={() => this.handleClick(5000)}>5000</Button>
-              <Button onClick={() => this.handleClick(10000)}>10000</Button>
-              <Button type="button"  onClick={() => this.handleClick(0)}>Custom Value</Button>
-            </Button.Group>
-            {this.state.hidden ? (
-              ''
-            ) : (
-              <div className="form-row">
-
-                <div className="col-auto">
-                  <div className="form-group">
-                    <label htmlFor="value">Investment Value</label>
-                    <input type="number" value={this.state.value} onChange={this.handleChange} className="form-control" id="value" name="value" placeholder="1000" />
-                  </div>
-                  <Button>Simulate</Button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </form>
+        <Button.Group>
+          <Button onClick={() => this.handleClick(1000)}>1000</Button>
+          <Button onClick={() => this.handleClick(5000)}>5000</Button>
+          <Button onClick={() => this.handleClick(10000)}>10000</Button>
+          <Button type="button" onClick={() => this.handleClick(0)}>Custom Value</Button>
+        </Button.Group>
+        {this.state.hidden ? (
+          ''
+        ) : (
+          <React.Fragment>
+            <Form.Input style={{ width: '110px' }} label="Investment Value" type="number" value={this.state.value} onChange={this.handleChange} id="value" name="value" placeholder="1000" />
+            <Button>Simulate</Button>
+          </React.Fragment>
+        )}
+      </Form>
     )
   }
 }
