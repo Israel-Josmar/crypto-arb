@@ -2,6 +2,8 @@ import React from 'react'
 import { Cryptocurrency } from './crypto-currency'
 import { Button, Form, Message } from 'semantic-ui-react'
 
+import 'semantic-ui-css/semantic.min.css'
+
 class InvestmentForm extends React.Component {
   constructor(props) {
     super(props)
