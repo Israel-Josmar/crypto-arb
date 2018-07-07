@@ -6,53 +6,47 @@ class InvestmentForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      hidden: true,
-      value: 1000,
+      selectedAmount: 1000,
+      customValue: 1000,
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-  handleClick(value) {
-    const hidden = (value === 0) ? !this.state.hidden : true
+  handleClick(e, { value }) {
     this.setState({
-      hidden: hidden,
-      value: (hidden) ? value : 1000,
+      selectedAmount: value,
     })
+    this.handleSubmit(value)
   }
 
   handleChange(event) {
     const target = event.target
-    const name =  target.name
-
     this.setState({
-      [name]: target.value,
+      customValue: target.value,
     })
   }
 
-  handleSubmit(event) {
-    event.preventDefault()
-    this.props.handleSubmit(this.state.value)
+  handleSubmit(value) {
+    this.props.handleSubmit(value)
   }
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form>
         <Message color="blue">
           Investment values after bank fees
         </Message>
         <Button.Group>
-          <Button onClick={() => this.handleClick(1000)}>1000</Button>
-          <Button onClick={() => this.handleClick(5000)}>5000</Button>
-          <Button onClick={() => this.handleClick(10000)}>10000</Button>
-          <Button type="button" onClick={() => this.handleClick(0)}>Custom Value</Button>
+          <Button type="button" onClick={this.handleClick} value="1000">1000</Button>
+          <Button type="button" onClick={this.handleClick} value="5000">5000</Button>
+          <Button type="button" onClick={this.handleClick} value="10000">10000</Button>
+          <Button type="button" onClick={() => this.setState({ selectedAmount: undefined })}>Custom Value</Button>
         </Button.Group>
-        {this.state.hidden ? (
-          ''
-        ) : (
+        {!this.state.selectedAmount && (
           <React.Fragment>
-            <Form.Input style={{ width: '110px' }} label="Investment Value" type="number" value={this.state.value} onChange={this.handleChange} id="value" name="value" placeholder="1000" />
-            <Button>Simulate</Button>
+            <Form.Input style={{ width: '110px' }} label="Investment Value" type="number" value={this.state.customValue} onChange={this.handleChange} id="value" name="value" placeholder="1000" />
+            <Button type="button" onClick={() => this.handleSubmit(this.state.customValue)}>Simulate</Button>
           </React.Fragment>
         )}
       </Form>
