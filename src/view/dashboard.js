@@ -21,9 +21,9 @@ class InvestmentForm extends React.Component {
     }, this.handleSubmit)
   }
 
-  handleClickCustomAmount(e, { value }) {
+  handleClickCustomAmount() {
     this.setState({
-      selectedAmount: value,
+      selectedAmount: undefined,
     })
   }
 
@@ -48,7 +48,7 @@ class InvestmentForm extends React.Component {
           <Button type="button" onClick={this.handleClick} value="1000">1000</Button>
           <Button type="button" onClick={this.handleClick} value="5000">5000</Button>
           <Button type="button" onClick={this.handleClick} value="10000">10000</Button>
-          <Button type="button" onClick={this.handleClickCustomAmount} value={undefined}>Custom Value</Button>
+          <Button type="button" onClick={this.handleClickCustomAmount}>Custom Value</Button>
         </Button.Group>
         {!this.state.selectedAmount && (
           <React.Fragment>
