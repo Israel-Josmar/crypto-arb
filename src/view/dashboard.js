@@ -1,80 +1,62 @@
 import React from 'react'
 import { Cryptocurrency } from './crypto-currency'
+import { Button, Form, Message } from 'semantic-ui-react'
 
 class InvestmentForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      hidden: true,
-      value: 1000,
+      selectedAmount: 1000,
+      customAmount: 1000,
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleClickCustomAmount = this.handleClickCustomAmount.bind(this)
   }
-  handleClick(e) {
-    const hidden = (e.target.id === 'customLabel') ? !this.state.hidden : true
+
+  handleClick(e, { value }) {
     this.setState({
-      hidden: hidden,
-      value: (hidden) ? e.target.id : 1000,
+      selectedAmount: value,
+    }, this.handleSubmit)
+  }
+
+  handleClickCustomAmount() {
+    this.setState({
+      selectedAmount: undefined,
     })
   }
 
   handleChange(event) {
     const target = event.target
-    const name =  target.name
-
     this.setState({
-      [name]: target.value,
+      customAmount: target.value,
     })
   }
 
-  handleSubmit(event) {
-    event.preventDefault()
-    this.props.handleSubmit(this.state.value)
+  handleSubmit() {
+    this.props.handleSubmit(this.state.selectedAmount || this.state.customAmount)
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div class="alert alert-info" role="alert">
+      <Form>
+        <Message color="blue">
           Investment values after bank fees
-        </div>
-        <div className="form-row">
-          <div className="col-auto">
-            <div className="btn-group btn-group-toggle" data-toggle="buttons">
-              <label className="btn btn-secondary btn-sm border active" id="1000" onClick={this.handleClick} >
-                <input type="radio" name="options" /> 1000
-              </label>
-              <label className="btn btn-secondary btn-sm border" id="5000" onClick={this.handleClick}>
-                <input type="radio" name="options" /> 5000
-              </label>
-              <label className="btn btn-secondary btn-sm border" id="10000"  onClick={this.handleClick}>
-                <input type="radio" name="options" /> 10000
-              </label>
-              <label id="customLabel" className="btn btn-secondary btn-sm border" onClick={this.handleClick}>
-                <input type="radio" name="options" />Custom Value
-              </label>
-
-            </div>
-            {this.state.hidden ? (
-              ''
-            ) : (
-              <div className="form-row">
-
-                <div className="col-auto">
-                  <div className="form-group">
-                    <label htmlFor="value">Investment Value</label>
-                    <input type="number" value={this.state.value} onChange={this.handleChange} className="form-control" id="value" name="value" placeholder="1000" />
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <Button className="btn btn-primary btn-sm" value="Simulate" />
-      </form>
+        </Message>
+        <Button.Group>
+          <Button type="button" onClick={this.handleClick} value="1000">1000</Button>
+          <Button type="button" onClick={this.handleClick} value="5000">5000</Button>
+          <Button type="button" onClick={this.handleClick} value="10000">10000</Button>
+          <Button type="button" onClick={this.handleClickCustomAmount}>Custom Value</Button>
+        </Button.Group>
+        {!this.state.selectedAmount && (
+          <React.Fragment>
+            <Form.Input style={{ width: '110px' }} label="Investment Value" type="number" value={this.state.customAmount} onChange={this.handleChange} id="value" name="value" placeholder="1000" />
+            <Button type="button" onClick={this.handleSubmit}>Simulate</Button>
+          </React.Fragment>
+        )}
+      </Form>
     )
   }
 }
@@ -121,18 +103,6 @@ const ExchangeCard = ({
         <span className="">{exchangeTo}</span>
       </div>
     </div>
-  )
-}
-
-const  Button = ({
-  className,
-  onClick,
-  value,
-}) => {
-  return (
-    <button className={className} onClick={onClick}>
-      {value}
-    </button>
   )
 }
 
