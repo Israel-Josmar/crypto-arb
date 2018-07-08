@@ -30,7 +30,7 @@ class InvestmentForm extends React.Component {
   handleChange(event) {
     const target = event.target
     this.setState({
-      customValue: target.value,
+      customAmount: target.value,
     })
   }
 
