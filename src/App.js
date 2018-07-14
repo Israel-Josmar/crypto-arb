@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
-import DashBoard from './view/dashboard'
+import DashBoard from './pages/dashboard'
 
 import 'semantic-ui-css/semantic.min.css'
 
