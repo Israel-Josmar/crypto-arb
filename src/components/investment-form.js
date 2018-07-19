@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Button, Form, Message } from 'semantic-ui-react'
 
-export class InvestmentForm extends React.Component {
+export class InvestmentForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
