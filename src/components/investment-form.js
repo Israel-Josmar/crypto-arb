@@ -8,32 +8,28 @@ export class InvestmentForm extends Component {
       selectedAmount: 1000,
       customAmount: 1000,
     }
-    this.handleClick = this.handleClick.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleClickCustomAmount = this.handleClickCustomAmount.bind(this)
   }
 
-  handleClick(e, { value }) {
+  handleClick = (e, { value }) => {
     this.setState({
       selectedAmount: value,
     }, this.handleSubmit)
   }
 
-  handleClickCustomAmount() {
+  handleClickCustomAmount = () => {
     this.setState({
       selectedAmount: undefined,
     })
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     const target = event.target
     this.setState({
       customAmount: target.value,
     })
   }
 
-  handleSubmit() {
+  handleSubmit = () => {
     this.props.handleSubmit(this.state.selectedAmount || this.state.customAmount)
   }
 
