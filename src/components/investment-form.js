@@ -20,9 +20,9 @@ export class InvestmentForm extends Component {
   }
 
   handleChange = (event) => {
-    const target = event.target
+    const value = event.target.value
     this.setState({
-      customAmount: target.value,
+      customAmount: value,
     })
   }
 
