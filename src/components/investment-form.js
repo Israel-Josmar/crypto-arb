@@ -2,12 +2,9 @@ import React, { Component } from 'react'
 import { Button, Form, Message } from 'semantic-ui-react'
 
 export class InvestmentForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectedAmount: 1000,
-      customAmount: 1000,
-    }
+  state = {
+    selectedAmount: 1000,
+    customAmount: 1000,
   }
 
   handleClick = (e, { value }) => {
