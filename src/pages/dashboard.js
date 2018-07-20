@@ -21,7 +21,7 @@ class DashBoard extends React.Component {
     const response = await fetch(`/dashboard?amount=${value}&currency=brl`)
     const result = await response.json()
     const data = result.map((card) => {
-      const profitPercent = card.profitPercent - 1
+      const profitPercent = card.profitPercent - 1 // Api returns total amount after arbitrage, not just profit
       const profit = profitPercent * value
       return ({
         ...card,
