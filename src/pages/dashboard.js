@@ -1,34 +1,17 @@
 import React from 'react'
 import { InvestmentForm } from '../components/investment-form'
 import { ExchangeCard } from '../components/exchange-card'
+import { fetchCardsData } from '../services/dashboard-service'
 
 class DashBoard extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      value: '',
-      cost: '',
-      cards: [],
-    }
-    this.handleSubmit = this.handleSubmit.bind(this)
+  state = {
+    value: '',
+    cost: '',
+    cards: [],
   }
 
-  handleSubmit(value) {
-    this.fetchCardsData(value)
-  }
-
-  async fetchCardsData(value) {
-    const response = await fetch(`/dashboard?amount=${value}&currency=brl`)
-    const result = await response.json()
-    const data = result.map((card) => {
-      const profitPercent = card.profitPercent - 1 // Api returns total amount after arbitrage, not just profit
-      const profit = profitPercent * value
-      return ({
-        ...card,
-        profit: profit,
-        profitPercent: profit / value,
-      })
-    })
+  handleSubmit = async (value) => {
+    const data = await fetchCardsData(value)
     this.setState({ cards: data })
   }
 
