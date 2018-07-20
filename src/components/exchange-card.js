@@ -18,7 +18,7 @@ export const ExchangeCard = ({
       </div>
       <div className="card-body d-flex align-items-center" >
         <div className="d-flex mr-auto"><span className="profit">R$&nbsp;</span><NumberDisplay value={profit} /></div>
-        <div className="ml-auto"><NumberDisplay value={profitPercent} showAspercent="true"/></div>
+        <div className="ml-auto"><NumberDisplay value={profitPercent} showAsPercent="true"/></div>
       </div>
       <div className="card-footer text-muted d-flex">
         <span className="">{exchangeFrom}</span>
