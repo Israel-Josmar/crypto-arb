@@ -7,7 +7,7 @@ import './login-page.css'
 export class LoginPage extends Component {
   handleSubmit = async (username, password) => {
     const response = await login(username, password)
-    this.props.onLogin(response.user_name)
+    this.props.onLogin(response)
   }
 
   render() {

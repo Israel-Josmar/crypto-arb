@@ -1,7 +1,7 @@
 {
   "name": "crypto-arb",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "proxy": "https://mg4t3tqq9j.execute-api.us-east-2.amazonaws.com",
   "scripts": {
     "build": "react-scripts build",
     "eject": "react-scripts eject",
@@ -13,6 +13,8 @@
     "test": "react-scripts test --env=jsdom"
   },
   "dependencies": {
+    "aws-amplify": "^1.1.6",
+    "aws-amplify-react": "^2.0.7",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "semantic-ui-css": "^2.3.2",
