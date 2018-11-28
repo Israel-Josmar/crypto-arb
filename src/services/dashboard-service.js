@@ -2,10 +2,6 @@ import { API } from 'aws-amplify'
 
 export const fetchCardsData = async (value) => {
   const result = await API.get('dashboard', '/dashboard', {
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
     queryStringParameters: {
       amount: value,
       currency: 'brl',
